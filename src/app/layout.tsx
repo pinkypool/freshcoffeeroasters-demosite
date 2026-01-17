@@ -15,6 +15,7 @@ import RevealObserver from "@/components/RevealObserver";
 import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { YandexMetrika } from "@/components/YandexMetrika";
+import DemoBanner from "@/components/DemoBanner";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -108,6 +109,7 @@ export default function RootLayout({
                 </main>
                 <Footer />
                 <BackToTop />
+                <DemoBanner />
                 <YandexMetrika />
               </FavoritesProvider>
             </CartProvider>
