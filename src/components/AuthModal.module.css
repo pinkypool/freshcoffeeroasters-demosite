@@ -1,0 +1,244 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    /* Removed backdrop-filter for perf */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--spacing-md);
+    animation: fadeIn 0.2s ease;
+}
+
+.modal {
+    background: var(--color-white);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: slideUp 0.3s ease;
+}
+
+.closeBtn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--color-grey-600);
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.closeBtn:hover {
+    background: var(--color-grey-100);
+    color: var(--color-grey-900);
+}
+
+.header {
+    padding: var(--spacing-xl) var(--spacing-xl) 0;
+    text-align: center;
+}
+
+.title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+    color: var(--color-grey-900);
+}
+
+.tabs {
+    display: flex;
+    gap: var(--spacing-sm);
+    background: var(--color-grey-100);
+    padding: 4px;
+    border-radius: 12px;
+}
+
+.tab {
+    flex: 1;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: none;
+    background: transparent;
+    border-radius: 10px;
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    color: var(--color-grey-600);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.tab.active {
+    background: var(--color-white);
+    color: var(--color-grey-900);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    margin: var(--spacing-lg) var(--spacing-xl) 0;
+    background: #FEE2E2;
+    color: #DC2626;
+    border-radius: 10px;
+    font-size: var(--font-size-sm);
+}
+
+.form {
+    padding: var(--spacing-xl);
+}
+
+.inputGroup {
+    margin-bottom: var(--spacing-md);
+}
+
+.inputGroup label {
+    display: block;
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: var(--color-grey-800);
+    margin-bottom: var(--spacing-xs);
+}
+
+.inputGroup input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-size: var(--font-size-base);
+    transition: all 0.2s;
+}
+
+.inputGroup input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(72, 73, 232, 0.1);
+}
+
+.submitBtn {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background: var(--color-primary);
+    color: var(--color-white);
+    border: none;
+    border-radius: 12px;
+    font-size: var(--font-size-base);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.submitBtn:hover:not(:disabled) {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.demoNote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-md);
+    font-size: var(--font-size-sm);
+    color: var(--color-grey-600);
+}
+
+/* Register via WhatsApp */
+.registerContent {
+    padding: var(--spacing-2xl);
+    text-align: center;
+}
+
+.registerIcon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto var(--spacing-lg);
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.registerTitle {
+    font-size: var(--font-size-xl);
+    font-weight: 700;
+    color: var(--color-grey-900);
+    margin-bottom: var(--spacing-md);
+}
+
+.registerText {
+    color: var(--color-grey-600);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-xl);
+}
+
+.whatsappBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 32px;
+    background: #25D366;
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: var(--font-size-base);
+    transition: all 0.3s ease;
+}
+
+.whatsappBtn:hover {
+    background: #1DA851;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.4);
+}
+
+.registerNote {
+    margin-top: var(--spacing-lg);
+    font-size: var(--font-size-sm);
+    color: var(--color-grey-600);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .modal {
+        max-height: 100vh;
+        border-radius: 16px 16px 0 0;
+        margin-top: auto;
+    }
+}

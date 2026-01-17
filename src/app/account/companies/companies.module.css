@@ -1,0 +1,337 @@
+.addBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.addBtn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 73, 232, 0.4);
+}
+
+.emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    background: var(--color-grey-100);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.emptyState svg {
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+.emptyState h3 {
+    font-size: 1.25rem;
+    color: var(--color-text-main);
+    margin-bottom: 8px;
+}
+
+.emptyState p {
+    color: var(--color-text-muted);
+    margin-bottom: 24px;
+}
+
+.addBtnLarge {
+    padding: 14px 28px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.addBtnLarge:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 73, 232, 0.4);
+}
+
+/* Companies Grid */
+.companiesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 20px;
+}
+
+.companyCard {
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.companyCard:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 20px rgba(72, 73, 232, 0.1);
+}
+
+.companyCard.isDefault {
+    border-color: var(--color-primary);
+    background: linear-gradient(135deg, #fafbff 0%, #f0f4ff 100%);
+}
+
+.defaultBadge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 12px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 50px;
+    margin-bottom: 12px;
+}
+
+.companyName {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 16px;
+}
+
+.companyInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.infoRow {
+    display: flex;
+    font-size: 0.875rem;
+}
+
+.label {
+    color: var(--color-text-muted);
+    width: 130px;
+    flex-shrink: 0;
+}
+
+.infoRow span:last-child {
+    color: var(--color-text-main);
+}
+
+.cardActions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+}
+
+.actionBtn {
+    padding: 8px 16px;
+    background: var(--color-grey-100);
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.actionBtn:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+.actionBtnIcon {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-grey-100);
+    border: none;
+    border-radius: 8px;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-left: auto;
+}
+
+.actionBtnIcon:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+.actionBtnIcon.danger:hover {
+    background: #dc2626;
+}
+
+/* Modal */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.modal {
+    background: white;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modalHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.modalHeader h2 {
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.closeBtn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-grey-100);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+    background: var(--color-grey-900);
+    color: white;
+}
+
+/* Form */
+.form {
+    padding: 24px;
+}
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 8px;
+}
+
+.formGroup input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.formGroup input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(72, 73, 232, 0.1);
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.cancelBtn {
+    padding: 12px 24px;
+    background: var(--color-grey-100);
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.cancelBtn:hover {
+    background: var(--color-grey-900);
+    color: white;
+}
+
+.submitBtn {
+    padding: 12px 24px;
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.submitBtn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-1px);
+}

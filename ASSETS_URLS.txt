@@ -1,0 +1,70 @@
+# Fresh Coffee Assets - URLs
+
+Пожалуйста, добавьте URL для каждого элемента ниже.
+Формат: просто вставьте ссылку после двоеточия.
+
+---
+
+## 🏠 Главная страница (Landing)
+
+### Hero секция
+hero_background_video: 
+hero_background_image: 
+
+### Продукт фото (кофе в зернах)
+product_photo_1: 
+product_photo_2: 
+product_photo_3: 
+
+---
+
+## 👥 Команда (About Page)
+
+### Основатель / CEO
+team_ceo_name: 
+team_ceo_photo: 
+team_ceo_role: 
+
+### Бариста / Обжарщик
+team_member_2_name: 
+team_member_2_photo: 
+team_member_2_role: 
+
+### Другие члены команды (добавьте по необходимости)
+team_member_3_name: 
+team_member_3_photo: 
+team_member_3_role: 
+
+---
+
+## 🎓 Обучение бариста (Services Page)
+
+### Фото с обучения
+training_photo_1: 
+training_photo_2: 
+training_video: 
+
+### Информация о курсе
+training_price: 
+training_duration: 
+training_description: 
+
+---
+
+## ☕ Галерея / Производство
+
+gallery_photo_1: 
+gallery_photo_2: 
+gallery_photo_3: 
+roasting_video: 
+
+---
+
+## 📦 Упаковка продукции
+
+packaging_photo_1: 
+packaging_photo_2: 
+
+---
+
+ПРИМЕЧАНИЕ: Вы можете использовать ссылки с Instagram, Google Drive, или любого другого источника.

@@ -1,0 +1,448 @@
+:root {
+  /* Brand Colors - Fresh Coffee Blue/White Theme */
+  --color-blue-600: #4849e8;
+  /* Electric Blue from packaging/site */
+  --color-blue-700: #3738c5;
+  /* Darker blue for hover */
+  --color-blue-100: #eef0ff;
+  /* Light blue background */
+
+  --color-grey-900: #313131;
+  /* Dark Grey / Black text */
+  --color-grey-800: #424242;
+  --color-grey-600: #757575;
+  --color-grey-100: #f5f5f5;
+  --color-white: #ffffff;
+
+  /* Functional Colors */
+  --color-text-main: var(--color-grey-900);
+  --color-text-light: var(--color-white);
+  --color-text-muted: var(--color-grey-600);
+
+  --color-background: var(--color-white);
+  --color-background-alt: var(--color-grey-100);
+
+  --color-primary: var(--color-blue-600);
+  --color-primary-hover: var(--color-blue-700);
+
+  --color-accent: var(--color-blue-600);
+  /* Reusing blue as accent */
+
+  --color-border: #e0e0e0;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Typography */
+  --font-family-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+
+  /* Radius + Shadows (modern UI) */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+
+  --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 14px 38px rgba(0, 0, 0, 0.10);
+  --shadow-lg: 0 30px 80px rgba(0, 0, 0, 0.12);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-soft: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur-1: 140ms;
+  --dur-2: 220ms;
+  --dur-3: 360ms;
+
+  /* Glassmorphism tokens */
+  --glass-bg: rgba(255, 255, 255, 0.62);
+  --glass-bg-strong: rgba(255, 255, 255, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.42);
+  --glass-border-strong: rgba(255, 255, 255, 0.55);
+  --glass-blur: 14px;
+
+  --glass-dark-bg: rgba(18, 20, 40, 0.55);
+  --glass-dark-border: rgba(255, 255, 255, 0.16);
+  --glass-dark-text: rgba(255, 255, 255, 0.92);
+  --glass-dark-muted: rgba(255, 255, 255, 0.72);
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-family-sans);
+  color: var(--color-text-main);
+  background:
+    radial-gradient(900px 600px at 18% 12%, rgba(72, 73, 232, 0.16), transparent 55%),
+    radial-gradient(800px 560px at 80% 18%, rgba(99, 102, 241, 0.14), transparent 55%),
+    radial-gradient(900px 600px at 55% 88%, rgba(14, 165, 233, 0.10), transparent 55%),
+    linear-gradient(180deg, #f8fafc 0%, #f4f7ff 45%, #ffffff 100%);
+  line-height: 1.5;
+}
+
+/* Subtle noise layer to make glass feel "real" */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 3px 3px;
+  opacity: 0.06;
+  /* mix-blend-mode is pretty expensive on some GPUs; keep it simple */
+  z-index: 0;
+}
+
+/* Single-line coffee bean background - one large decorative element */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 60vw;
+  min-width: 400px;
+  pointer-events: none;
+  background-image: url('/coffeebean.svg');
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: auto 80vh;
+  opacity: 0.4;
+  z-index: 0;
+}
+
+/* Keep app content above the noise layer */
+body>* {
+  position: relative;
+  z-index: 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+}
+
+/* Make interactions feel smooth everywhere (no "дерганий") */
+@media (prefers-reduced-motion: no-preference) {
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      box-shadow var(--dur-2) var(--ease-out),
+      background-color var(--dur-2) var(--ease-out),
+      border-color var(--dur-2) var(--ease-out),
+      color var(--dur-2) var(--ease-out),
+      opacity var(--dur-2) var(--ease-out);
+  }
+}
+
+/* Scroll reveal (lightweight, no libraries) */
+.reveal {
+  opacity: 1;
+  transform: none;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.reveal-ready .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--dur-3) var(--ease-out),
+      transform var(--dur-3) var(--ease-out);
+  }
+
+  /* Ensure revealVisible wins even with the same specificity */
+  html.reveal-ready .reveal.revealVisible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal.revealVisible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
+}
+
+/* Page enter (fallback for browsers without View Transitions) */
+.pageEnter {
+  animation: pageEnter 260ms var(--ease-out) both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* View Transitions (smooth route changes in supported browsers) */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out);
+}
+
+::view-transition-old(root) {
+  animation-name: vtFadeOut;
+}
+
+::view-transition-new(root) {
+  animation-name: vtFadeIn;
+}
+
+@keyframes vtFadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes vtFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+
+.glass-dark {
+  background: var(--glass-dark-bg);
+  border: 1px solid var(--glass-dark-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  color: var(--glass-dark-text);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+
+  .glass,
+  .glass-strong,
+  .glass-dark {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --glass-blur: 10px;
+    --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.10);
+  }
+
+  /* Disable noise layer on mobile to reduce repaints */
+  body::before {
+    content: none;
+  }
+
+  /* Keep background simpler on mobile */
+  body::after {
+    opacity: 0.28;
+  }
+}
+
+/* Reduce expensive transparency effects when the OS asks for it (Safari/iOS) */
+@media (prefers-reduced-transparency: reduce) {
+  :root {
+    --glass-bg: rgba(255, 255, 255, 0.92);
+    --glass-bg-strong: rgba(255, 255, 255, 0.96);
+    --glass-dark-bg: rgba(18, 20, 40, 0.82);
+    --glass-blur: 0px;
+  }
+
+  .glass,
+  .glass-strong,
+  .glass-dark {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+.focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(72, 73, 232, 0.18);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 999px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, #6366f1 100%);
+  color: var(--color-text-light);
+  box-shadow: 0 12px 28px rgba(72, 73, 232, 0.28);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(72, 73, 232, 0.34);
+}
+
+.btn-ghost {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: inherit;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.20);
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-100 {
+  animation-delay: 0.1s;
+}
+
+.delay-200 {
+  animation-delay: 0.2s;
+}
+
+.delay-300 {
+  animation-delay: 0.3s;
+}
+
+.btn-accent {
+  background-color: var(--color-primary);
+  /* Unified accent to primary for now */
+  color: var(--color-text-light);
+}
+
+.btn-accent:hover {
+  background-color: var(--color-primary-hover);
+}

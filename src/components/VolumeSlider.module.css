@@ -1,0 +1,307 @@
+.sliderContainer {
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Discount Row - Positioned Above */
+.discountRow {
+    position: relative;
+    height: 24px;
+    margin-bottom: 4px;
+}
+
+.discountBadge {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    transition: all 0.2s;
+}
+
+.discountActive {
+    color: var(--color-primary);
+    font-weight: 700;
+}
+
+/* Weight Markers Row */
+.weightMarkers {
+    position: relative;
+    height: 20px;
+    margin-bottom: 6px;
+}
+
+.weightLabel {
+    position: absolute;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.weightActive {
+    color: var(--color-primary);
+    opacity: 1;
+    font-weight: 600;
+}
+
+/* Slider Track */
+.sliderTrack {
+    position: relative;
+    height: 6px;
+    background: var(--color-border);
+    border-radius: 3px;
+    margin-bottom: 16px;
+}
+
+.sliderFill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: var(--color-primary);
+    border-radius: 3px;
+}
+
+.tierDot {
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-border);
+    border: 2px solid var(--color-background);
+    z-index: 1;
+    transition: all 0.2s;
+}
+
+.tierDotActive {
+    background: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(72, 73, 232, 0.2);
+}
+
+.sliderInput {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    width: 100%;
+    height: 22px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    margin: 0;
+    z-index: 2;
+}
+
+.sliderInput::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: grab;
+
+}
+
+.sliderInput::-webkit-slider-thumb:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(72, 73, 232, 0.3);
+}
+
+.sliderInput::-webkit-slider-thumb:active {
+    cursor: grabbing;
+}
+
+.sliderInput::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--color-primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: grab;
+}
+
+/* Price Row */
+.priceRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.quantityDisplay {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.quantityValue {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+}
+
+.quantityUnit {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.quantityBtn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid var(--color-primary);
+    background: white;
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.quantityBtn:hover {
+    background: var(--color-primary);
+    color: white;
+}
+
+.quantityInput {
+    width: 50px;
+    text-align: center;
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    border: none;
+    background: transparent;
+    -moz-appearance: textfield;
+}
+
+.quantityInput::-webkit-outer-spin-button,
+.quantityInput::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantityInput:focus {
+    outline: none;
+}
+
+.priceInfo {
+    text-align: right;
+}
+
+.pricePerKg {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+}
+
+.totalPrice {
+    display: block;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+}
+
+/* Motivational Hints */
+.hintRow {
+    text-align: center;
+    margin-top: 6px;
+    min-height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hintRow span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 8px;
+    animation: fadeIn 0.3s ease-in;
+    display: inline-block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.hintSmall {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+    color: #2d3436;
+}
+
+.hintMedium {
+    background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+    color: white;
+}
+
+.hintGood {
+    background: linear-gradient(135deg, #55efc4 0%, #00b894 100%);
+    color: white;
+}
+
+.hintGreat {
+    background: linear-gradient(135deg, #fd79a8 0%, #e84393 100%);
+    color: white;
+}
+
+.hintBest {
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+    color: white;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.hintMax {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 50%, #ff7675 100%);
+    color: white;
+    font-weight: 800;
+    font-size: 0.9rem;
+    animation: celebrate 0.6s ease-in-out;
+    box-shadow: 0 4px 15px rgba(253, 203, 110, 0.4);
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes celebrate {
+
+    0%,
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+
+    25% {
+        transform: scale(1.1) rotate(-2deg);
+    }
+
+    75% {
+        transform: scale(1.1) rotate(2deg);
+    }
+}

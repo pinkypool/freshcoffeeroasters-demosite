@@ -1,0 +1,295 @@
+.header {
+    background: rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: var(--color-text-main);
+    background: rgba(255, 255, 255, 0.72);
+    padding: 5px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: var(--shadow-sm);
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.logoText {
+    font-weight: 300;
+    color: var(--color-text-main);
+}
+
+.logoTextBold {
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.nav {
+    display: flex;
+    gap: var(--spacing-xl);
+}
+
+.navLink {
+    color: rgba(17, 24, 39, 0.82);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.navLink:hover {
+    color: rgba(17, 24, 39, 1);
+    transform: translateY(-1px);
+}
+
+/* Actions (login + cart) */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+/* Login Button */
+.loginBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.60);
+    border-radius: 10px;
+    color: var(--color-text-main);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.loginBtn:hover {
+    background: rgba(255, 255, 255, 0.72);
+    transform: translateY(-1px);
+}
+
+/* Profile Dropdown */
+.profileWrapper {
+    position: relative;
+}
+
+.profileBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 6px 12px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.60);
+    border-radius: 10px;
+    color: var(--color-text-main);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.profileBtn:hover {
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.avatar {
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.userName {
+    font-weight: 500;
+}
+
+.rotated {
+    transform: rotate(180deg);
+    transition: transform 0.2s;
+}
+
+/* Profile Menu */
+.profileMenu {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: rgba(255, 255, 255, 0.78);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    box-shadow: var(--shadow-md);
+    min-width: 240px;
+    overflow: hidden;
+    animation: slideDown 0.2s ease;
+    z-index: 1000;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.menuHeader {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.55);
+}
+
+.menuAvatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.menuInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.menuInfo strong {
+    color: var(--color-grey-900);
+    font-size: var(--font-size-sm);
+}
+
+.menuInfo span {
+    color: var(--color-grey-600);
+    font-size: 12px;
+}
+
+.menuDivider {
+    height: 1px;
+    background: var(--color-border);
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md) var(--spacing-lg);
+    color: var(--color-grey-800);
+    font-size: var(--font-size-sm);
+    transition: all 0.2s;
+}
+
+.menuItem:hover {
+    background: var(--color-grey-100);
+    color: var(--color-primary);
+}
+
+.logoutBtn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border: none;
+    background: none;
+    color: #DC2626;
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+    background: #FEE2E2;
+}
+
+/* Cart */
+.cartLink {
+    position: relative;
+    color: var(--color-text-main);
+    transition: all 0.2s;
+    background: none;
+    border: none;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.cartLink:hover {
+    transform: scale(1.05);
+}
+
+.cartBadge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, #6366f1 100%);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .nav {
+        display: none;
+    }
+
+    .userName {
+        display: none;
+    }
+
+    .loginBtn span {
+        display: none;
+    }
+
+    .loginBtn {
+        padding: 8px;
+    }
+
+    .container {
+        padding: 0.5rem 1rem;
+    }
+}

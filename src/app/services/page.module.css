@@ -1,0 +1,226 @@
+.servicesContainer {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.hero {
+    text-align: center;
+    padding: var(--spacing-2xl) 0;
+}
+
+.heroTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.heroText {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+}
+
+.servicesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.serviceCard {
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.serviceCard:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 30px rgba(72, 73, 232, 0.1);
+}
+
+.cardIcon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: var(--spacing-lg);
+}
+
+.cardList {
+    list-style: none;
+    text-align: left;
+    margin-bottom: var(--spacing-xl);
+}
+
+.cardList li {
+    padding: var(--spacing-sm) 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.cardList li:last-child {
+    border-bottom: none;
+}
+
+.cardList li::before {
+    content: '✓';
+    color: var(--color-primary);
+    margin-right: var(--spacing-sm);
+    font-weight: 700;
+}
+
+.cardBtn {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: var(--color-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+
+.cardBtn:hover {
+    background: var(--color-primary-hover);
+}
+
+/* Training Section */
+.trainingSection {
+    padding: var(--spacing-2xl) 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.sectionTitle {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    text-align: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.sectionSubtitle {
+    text-align: center;
+    color: var(--color-text-muted);
+    margin-bottom: var(--spacing-2xl);
+}
+
+.trainingGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-lg);
+}
+
+.trainingCard {
+    position: relative;
+    background: var(--color-background);
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    transition: all 0.3s;
+}
+
+.trainingCard:hover {
+    border-color: var(--color-primary);
+    transform: translateY(-4px);
+    box-shadow: 0 15px 40px rgba(72, 73, 232, 0.15);
+}
+
+.trainingBadge {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    background: var(--color-primary);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.trainingTitle {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+}
+
+.trainingDesc {
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    font-size: 0.95rem;
+}
+
+.trainingFeatures {
+    list-style: none;
+    margin-bottom: var(--spacing-lg);
+}
+
+.trainingFeatures li {
+    padding: 6px 0;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+}
+
+.trainingFeatures li::before {
+    content: '•';
+    color: var(--color-primary);
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+.trainingBtn {
+    display: block;
+    text-align: center;
+    padding: var(--spacing-md);
+    background: var(--color-grey-900);
+    color: white;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.trainingBtn:hover {
+    background: var(--color-primary);
+}
+
+/* Additional Services */
+.additionalServices {
+    text-align: center;
+}
+
+.additionalGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-xl);
+}
+
+.additionalCard {
+    background: var(--color-blue-100);
+    padding: var(--spacing-xl);
+    border-radius: 12px;
+}
+
+.additionalCard h3 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+}
+
+.additionalCard p {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+}

@@ -1,0 +1,195 @@
+.shopContainer {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+}
+
+.hero {
+    text-align: center;
+    padding: var(--spacing-2xl) 0;
+}
+
+.heroTitle {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-sm);
+}
+
+.heroText {
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
+}
+
+.toolbar {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-md);
+    align-items: end;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-lg);
+}
+
+@media (max-width: 800px) {
+    .toolbar {
+        grid-template-columns: 1fr;
+        align-items: stretch;
+    }
+}
+
+.searchWrap {
+    width: 100%;
+}
+
+.searchInput {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--color-border);
+    border-radius: 14px;
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-strong);
+    font-size: 1rem;
+    transition: all 0.2s;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+.searchInput:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(72, 73, 232, 0.12);
+}
+
+.sortWrap {
+    display: grid;
+    gap: 6px;
+    justify-items: end;
+}
+
+@media (max-width: 800px) {
+    .sortWrap {
+        justify-items: start;
+    }
+}
+
+.sortLabel {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.sortSelect {
+    padding: 12px 14px;
+    border: 1px solid var(--glass-border-strong);
+    border-radius: 14px;
+    background: var(--glass-bg-strong);
+    font-size: 0.95rem;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+.sortSelect:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 4px rgba(72, 73, 232, 0.12);
+}
+
+.filterBar,
+.filterRow {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: center;
+    margin-bottom: var(--spacing-2xl);
+    flex-wrap: wrap;
+}
+
+.filterBtn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    border-radius: 30px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+.filterBtn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.filterBtn.active {
+    background: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.filterCount {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+    font-weight: 700;
+    font-size: 0.8rem;
+    margin-left: 6px;
+}
+
+.filterBtn.active .filterCount {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.grid,
+.productGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--spacing-xl);
+}
+
+.emptyState {
+    max-width: 520px;
+    margin: var(--spacing-2xl) auto 0;
+    text-align: center;
+    padding: var(--spacing-xl);
+    border-radius: 16px;
+    border: 1px solid var(--color-border);
+    background: var(--glass-bg-strong);
+    border: 1px solid var(--glass-border-strong);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+}
+
+.emptyState h3 {
+    margin: 0 0 6px;
+    font-size: 1.4rem;
+}
+
+.emptyState p {
+    margin: 0 0 var(--spacing-lg);
+    color: var(--color-text-muted);
+}
+
+.resetBtn {
+    padding: 12px 18px;
+    border-radius: 999px;
+    border: 2px solid var(--color-primary);
+    background: white;
+    color: var(--color-primary);
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.resetBtn:hover {
+    background: var(--color-primary);
+    color: white;
+}

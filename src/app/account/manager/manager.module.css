@@ -1,0 +1,239 @@
+.managerCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 32px;
+    padding: 32px;
+    background: linear-gradient(135deg, #fafbff 0%, #f0f4ff 100%);
+    border: 1px solid var(--color-primary);
+    border-radius: 20px;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 600px) {
+    .managerCard {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}
+
+.photoWrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white;
+    box-shadow: 0 8px 30px rgba(72, 73, 232, 0.2);
+}
+
+.statusBadge {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    background: white;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #22c55e;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.statusDot {
+    width: 8px;
+    height: 8px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.managerInfo {
+    flex: 1;
+}
+
+.managerName {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--color-text-main);
+    margin-bottom: 4px;
+}
+
+.position {
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+}
+
+.contactList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.contactItem {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--color-text-main);
+    font-size: 0.95rem;
+    transition: color 0.2s;
+}
+
+.contactItem:hover {
+    color: var(--color-primary);
+}
+
+.contactItem svg {
+    color: var(--color-primary);
+}
+
+.actionButtons {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.whatsappBtn,
+.telegramBtn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.whatsappBtn {
+    background: #25D366;
+    color: white;
+}
+
+.whatsappBtn:hover {
+    background: #1DA851;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4);
+}
+
+.telegramBtn {
+    background: #0088cc;
+    color: white;
+}
+
+.telegramBtn:hover {
+    background: #006da3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.4);
+}
+
+/* Conditions */
+.sectionTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    margin-bottom: 20px;
+}
+
+.conditionsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+}
+
+.conditionCard {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.conditionCard:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 4px 15px rgba(72, 73, 232, 0.1);
+}
+
+.conditionIcon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-blue-100);
+    border-radius: 12px;
+    color: var(--color-primary);
+    flex-shrink: 0;
+}
+
+.conditionInfo h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 4px;
+}
+
+.conditionInfo p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+/* Help Section */
+.helpSection {
+    padding: 32px;
+    background: var(--color-grey-100);
+    border-radius: 16px;
+    text-align: center;
+}
+
+.helpSection h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.helpSection p {
+    color: var(--color-text-muted);
+    max-width: 500px;
+    margin: 0 auto 20px;
+}
+
+.helpBtn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.helpBtn:hover {
+    background: var(--color-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(72, 73, 232, 0.4);
+}
