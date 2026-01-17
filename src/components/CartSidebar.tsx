@@ -3,16 +3,55 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
+import { useSettings } from '@/context/SettingsContext';
 import styles from './CartSidebar.module.css';
 import { useRouter } from 'next/navigation';
 
 export default function CartSidebar() {
     const { isCartOpen, closeCart, items, removeFromCart, updateQuantity, getCartTotal } = useCart();
+    const { language } = useSettings();
     const router = useRouter();
     const sidebarRef = useRef<HTMLDivElement>(null);
     const closeBtnRef = useRef<HTMLButtonElement>(null);
     const lastActiveElementRef = useRef<HTMLElement | null>(null);
     const [mounted, setMounted] = useState(false);
+
+    const content = {
+        ru: {
+            cart: 'Корзина',
+            empty: 'Корзина пуста',
+            emptyText: 'Ваша корзина пуста',
+            item1: 'позиция',
+            item24: 'позиции',
+            item5plus: 'позиций',
+            kg: 'кг',
+            total: 'Итого:',
+            checkout: 'Оформить заказ',
+            remove: 'Удалить',
+            close: 'Закрыть корзину',
+            decrease: 'Уменьшить количество',
+            increase: 'Увеличить количество',
+            quantity: 'Количество (кг)',
+        },
+        en: {
+            cart: 'Cart',
+            empty: 'Cart is empty',
+            emptyText: 'Your cart is empty',
+            item1: 'item',
+            item24: 'items',
+            item5plus: 'items',
+            kg: 'kg',
+            total: 'Total:',
+            checkout: 'Checkout',
+            remove: 'Remove',
+            close: 'Close cart',
+            decrease: 'Decrease quantity',
+            increase: 'Increase quantity',
+            quantity: 'Quantity (kg)',
+        },
+    };
+
+    const t = content[language];
 
     // Prevent hydration mismatch
     useEffect(() => {
@@ -27,20 +66,18 @@ export default function CartSidebar() {
     }, [closeCart]);
 
     const handleCheckout = () => {
-        // let the closing animation start before navigation
         closeCart();
         window.setTimeout(() => router.push('/checkout'), 120);
     };
 
-    // Only compute after mount to prevent hydration mismatch
     const displayItems = mounted ? items : [];
 
     const itemCountLabel = useMemo(() => {
-        if (displayItems.length === 0) return 'Корзина пуста';
-        if (displayItems.length === 1) return '1 позиция';
-        if (displayItems.length >= 2 && displayItems.length <= 4) return `${displayItems.length} позиции`;
-        return `${displayItems.length} позиций`;
-    }, [displayItems.length]);
+        if (displayItems.length === 0) return t.empty;
+        if (displayItems.length === 1) return `1 ${t.item1}`;
+        if (displayItems.length >= 2 && displayItems.length <= 4) return `${displayItems.length} ${t.item24}`;
+        return `${displayItems.length} ${t.item5plus}`;
+    }, [displayItems.length, t]);
 
     // Close on escape key
     useEffect(() => {
@@ -51,7 +88,7 @@ export default function CartSidebar() {
         return () => window.removeEventListener('keydown', handleEsc);
     }, [requestClose]);
 
-    // Focus management + simple focus trap
+    // Focus management
     useEffect(() => {
         if (!isCartOpen) return;
 
@@ -94,7 +131,7 @@ export default function CartSidebar() {
         };
     }, [isCartOpen]);
 
-    // Prevent body scroll when open
+    // Prevent body scroll
     useEffect(() => {
         if (isCartOpen) {
             document.body.style.overflow = 'hidden';
@@ -118,11 +155,11 @@ export default function CartSidebar() {
                 ref={sidebarRef}
                 role="dialog"
                 aria-modal="true"
-                aria-label="Корзина"
+                aria-label={t.cart}
             >
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Корзина • {itemCountLabel}</h2>
-                    <button className={styles.closeBtn} onClick={() => requestClose()} ref={closeBtnRef} aria-label="Закрыть корзину">
+                    <h2 className={styles.title}>{t.cart} • {itemCountLabel}</h2>
+                    <button className={styles.closeBtn} onClick={() => requestClose()} ref={closeBtnRef} aria-label={t.close}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -133,7 +170,7 @@ export default function CartSidebar() {
                 <div className={styles.content}>
                     {displayItems.length === 0 ? (
                         <div className={styles.emptyCart}>
-                            <p>Ваша корзина пуста</p>
+                            <p>{t.emptyText}</p>
                         </div>
                     ) : (
                         displayItems.map((item) => (
@@ -151,14 +188,14 @@ export default function CartSidebar() {
                                     <div className={styles.itemName}>{item.name}</div>
                                     <div className={styles.itemMetaRow}>
                                         <div className={styles.itemPrice}>
-                                            {item.quantity} кг × {item.pricePerKg.toLocaleString('ru-RU')} ₸
+                                            {item.quantity} {t.kg} × {item.pricePerKg.toLocaleString('ru-RU')} ₸
                                         </div>
                                         <div className={styles.itemTotal}>{item.total.toLocaleString('ru-RU')} ₸</div>
                                     </div>
                                     <div className={styles.quantityControls}>
                                         <button
                                             className={styles.qtyBtn}
-                                            aria-label="Уменьшить количество"
+                                            aria-label={t.decrease}
                                             onClick={() => {
                                                 if (item.quantity > 1) {
                                                     updateQuantity(item.sku, item.quantity - 1);
@@ -167,7 +204,7 @@ export default function CartSidebar() {
                                         >
                                             -
                                         </button>
-                                        <label className={styles.srOnly} htmlFor={`qty-${item.sku}`}>Количество (кг)</label>
+                                        <label className={styles.srOnly} htmlFor={`qty-${item.sku}`}>{t.quantity}</label>
                                         <input
                                             id={`qty-${item.sku}`}
                                             className={styles.qtyInput}
@@ -183,7 +220,7 @@ export default function CartSidebar() {
                                         />
                                         <button
                                             className={styles.qtyBtn}
-                                            aria-label="Увеличить количество"
+                                            aria-label={t.increase}
                                             onClick={() => updateQuantity(item.sku, item.quantity + 1)}
                                         >
                                             +
@@ -193,7 +230,7 @@ export default function CartSidebar() {
                                         className={styles.removeBtn}
                                         onClick={() => removeFromCart(item.sku)}
                                     >
-                                        Удалить
+                                        {t.remove}
                                     </button>
                                 </div>
                             </div>
@@ -204,11 +241,11 @@ export default function CartSidebar() {
                 {displayItems.length > 0 && (
                     <div className={styles.footer}>
                         <div className={styles.totalRow}>
-                            <span className={styles.totalLabel}>Итого:</span>
+                            <span className={styles.totalLabel}>{t.total}</span>
                             <span className={styles.totalValue}>{getCartTotal().toLocaleString('ru-RU')} ₸</span>
                         </div>
                         <button className={styles.checkoutBtn} onClick={handleCheckout}>
-                            Оформить заказ
+                            {t.checkout}
                         </button>
                     </div>
                 )}
