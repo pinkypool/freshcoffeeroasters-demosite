@@ -16,6 +16,7 @@ import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { YandexMetrika } from "@/components/YandexMetrika";
 import DemoBanner from "@/components/DemoBanner";
+import DemoMarquee from "@/components/DemoMarquee";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -97,6 +98,7 @@ export default function RootLayout({
           <AuthProvider>
             <CartProvider>
               <FavoritesProvider>
+                <DemoMarquee />
                 <Header />
                 <CartSidebar />
                 <AuthModal />

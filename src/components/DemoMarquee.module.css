@@ -1,0 +1,45 @@
+.marqueeContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 32px;
+    background: linear-gradient(90deg, #4849e8 0%, #6366f1 50%, #4849e8 100%);
+    z-index: 9999;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.marqueeContent {
+    display: flex;
+    animation: marquee 25s linear infinite;
+    white-space: nowrap;
+}
+
+.marqueeText {
+    color: white;
+    font-size: 0.85rem;
+    font-weight: 600;
+    padding: 0 40px;
+    letter-spacing: 0.02em;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Hover to pause */
+.marqueeContainer:hover .marqueeContent {
+    animation-play-state: paused;
+}
+
+/* Dark Theme */
+[data-theme="dark"] .marqueeContainer {
+    background: linear-gradient(90deg, #3738c5 0%, #4f46e5 50%, #3738c5 100%);
+}

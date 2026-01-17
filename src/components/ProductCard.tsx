@@ -93,20 +93,12 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const t = content[language];
 
-    const getSku = useMemo(() => {
-        const skuMap: Record<string, string> = {
-            'brazil-alfenas': 'BRAZIL_ALFENAS',
-            'espresso-1': 'ESPRESSO_1',
-            'espresso-70-30': 'ESPRESSO_70_30',
-            'espresso-50-50': 'ESPRESSO_50_50',
-            'vending-robusta': 'VENDING_ROBUSTA',
-        };
-        return skuMap[product.slug] || 'BRAZIL_ALFENAS';
-    }, [product.slug]);
+    // Use product slug as unique SKU
+    const sku = product.slug || product.id;
 
     const priceInfo = useMemo(() => {
-        return getPriceForQuantity(getSku, selectedQuantity);
-    }, [getSku, selectedQuantity]);
+        return getPriceForQuantity(sku, selectedQuantity);
+    }, [sku, selectedQuantity]);
 
     const handleQuantityChange = (qty: number) => {
         setSelectedQuantity(qty);
@@ -114,7 +106,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     const handleAddToCart = () => {
         addToCart({
-            sku: getSku,
+            sku: sku,
             name: product.name,
             slug: product.slug,
             quantity: selectedQuantity,
@@ -219,7 +211,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                 <div className={styles.sliderSection}>
                     <VolumeSlider
-                        sku={getSku}
+                        sku={sku}
                         onQuantityChange={(qty) => handleQuantityChange(qty)}
                     />
                 </div>
