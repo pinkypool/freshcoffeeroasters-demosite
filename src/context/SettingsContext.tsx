@@ -31,9 +31,21 @@ const translations: Record<Language, Record<string, string>> = {
         'user.wholesale': 'Оптовик',
         'user.retail': 'Розница',
         
-        // Shop
-        'shop.title': 'Наш кофе',
-        'shop.subtitle': 'Свежая обжарка каждую неделю',
+        // Shop Page
+        'shop.title': 'Магазин',
+        'shop.subtitle': 'Выберите свежий кофе для вашего бизнеса или дома',
+        'shop.search': 'Поиск: эспрессо, шоколад, Бразилия…',
+        'shop.sort': 'Сортировка',
+        'shop.sort.popular': 'Популярные',
+        'shop.sort.rating': 'По рейтингу',
+        'shop.sort.priceAsc': 'Цена: дешевле',
+        'shop.sort.priceDesc': 'Цена: дороже',
+        'shop.filter.all': 'Все',
+        'shop.filter.espresso': 'Эспрессо-смеси',
+        'shop.filter.arabica': '100% Арабика',
+        'shop.filter.robusta': 'С робустой',
+        'shop.loading': 'Загрузка товаров...',
+        'shop.empty': 'Товары не найдены',
         'shop.addToCart': 'В корзину',
         'shop.kg': 'кг',
         'shop.perKg': '₸/кг',
@@ -44,6 +56,7 @@ const translations: Record<Language, Record<string, string>> = {
         'cart.total': 'Итого',
         'cart.checkout': 'Оформить заказ',
         'cart.continue': 'Продолжить покупки',
+        'cart.remove': 'Удалить',
         
         // Checkout
         'checkout.title': 'Оформление заказа',
@@ -76,21 +89,25 @@ const translations: Record<Language, Record<string, string>> = {
         
         // About
         'about.title': 'О компании',
+        'about.subtitle': 'Мы обжариваем кофе с 2018 года',
         'about.story': 'Наша история',
         
         // Services
         'services.title': 'Услуги',
+        'services.subtitle': 'Комплексные решения для вашего бизнеса',
         'services.training': 'Обучение бариста',
         'services.equipment': 'Кофейное оборудование',
         
         // Contact
         'contact.title': 'Контакты',
+        'contact.subtitle': 'Свяжитесь с нами',
         'contact.address': 'Адрес',
         'contact.phone': 'Телефон',
         'contact.email': 'Email',
         
         // FAQ
         'faq.title': 'Частые вопросы',
+        'faq.subtitle': 'Ответы на популярные вопросы',
         
         // Auth
         'auth.login': 'Вход',
@@ -119,9 +136,21 @@ const translations: Record<Language, Record<string, string>> = {
         'user.wholesale': 'Wholesale',
         'user.retail': 'Retail',
         
-        // Shop
-        'shop.title': 'Our Coffee',
-        'shop.subtitle': 'Freshly roasted every week',
+        // Shop Page
+        'shop.title': 'Shop',
+        'shop.subtitle': 'Choose fresh coffee for your business or home',
+        'shop.search': 'Search: espresso, chocolate, Brazil…',
+        'shop.sort': 'Sort by',
+        'shop.sort.popular': 'Popular',
+        'shop.sort.rating': 'Rating',
+        'shop.sort.priceAsc': 'Price: Low to High',
+        'shop.sort.priceDesc': 'Price: High to Low',
+        'shop.filter.all': 'All',
+        'shop.filter.espresso': 'Espresso Blends',
+        'shop.filter.arabica': '100% Arabica',
+        'shop.filter.robusta': 'With Robusta',
+        'shop.loading': 'Loading products...',
+        'shop.empty': 'No products found',
         'shop.addToCart': 'Add to Cart',
         'shop.kg': 'kg',
         'shop.perKg': '₸/kg',
@@ -132,6 +161,7 @@ const translations: Record<Language, Record<string, string>> = {
         'cart.total': 'Total',
         'cart.checkout': 'Checkout',
         'cart.continue': 'Continue Shopping',
+        'cart.remove': 'Remove',
         
         // Checkout
         'checkout.title': 'Checkout',
@@ -164,21 +194,25 @@ const translations: Record<Language, Record<string, string>> = {
         
         // About
         'about.title': 'About Us',
+        'about.subtitle': 'Roasting coffee since 2018',
         'about.story': 'Our Story',
         
         // Services
         'services.title': 'Services',
+        'services.subtitle': 'Complete solutions for your business',
         'services.training': 'Barista Training',
         'services.equipment': 'Coffee Equipment',
         
         // Contact
         'contact.title': 'Contact',
+        'contact.subtitle': 'Get in touch',
         'contact.address': 'Address',
         'contact.phone': 'Phone',
         'contact.email': 'Email',
         
         // FAQ
         'faq.title': 'FAQ',
+        'faq.subtitle': 'Answers to common questions',
         
         // Auth
         'auth.login': 'Sign In',

@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from 'react';
 import ProductCard from '@/components/ProductCard';
+import { useSettings } from '@/context/SettingsContext';
 import styles from './page.module.css';
 import { Product, PRODUCTS as FALLBACK_PRODUCTS } from '@/lib/catalog';
 
@@ -9,6 +10,7 @@ type FilterType = 'all' | 'espresso' | 'arabica' | 'robusta';
 type SortType = 'popular' | 'priceAsc' | 'priceDesc' | 'ratingDesc';
 
 export default function ShopPage() {
+    const { t } = useSettings();
     const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<FilterType>('all');
@@ -68,12 +70,19 @@ export default function ShopPage() {
         return sorted;
     }, [filter, query, sort, products]);
 
+    const filterLabels: Record<FilterType, string> = {
+        all: t('shop.filter.all'),
+        espresso: t('shop.filter.espresso'),
+        arabica: t('shop.filter.arabica'),
+        robusta: t('shop.filter.robusta'),
+    };
+
     return (
         <div className={styles.shopContainer}>
             <section className={styles.hero}>
                 <div className="reveal">
-                    <h1 className={styles.heroTitle}>Магазин</h1>
-                    <p className={styles.heroText}>Выберите свежий кофе для вашего бизнеса или дома</p>
+                    <h1 className={styles.heroTitle}>{t('shop.title')}</h1>
+                    <p className={styles.heroText}>{t('shop.subtitle')}</p>
                 </div>
             </section>
 
@@ -83,22 +92,22 @@ export default function ShopPage() {
                         className={styles.searchInput}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Поиск: эспрессо, шоколад, Бразилия…"
-                        aria-label="Поиск по товарам"
+                        placeholder={t('shop.search')}
+                        aria-label={t('shop.search')}
                     />
                 </div>
                 <div className={styles.sortWrap}>
-                    <label className={styles.sortLabel} htmlFor="shop-sort">Сортировка</label>
+                    <label className={styles.sortLabel} htmlFor="shop-sort">{t('shop.sort')}</label>
                     <select
                         id="shop-sort"
                         className={styles.sortSelect}
                         value={sort}
                         onChange={(e) => setSort(e.target.value as SortType)}
                     >
-                        <option value="popular">Популярные</option>
-                        <option value="ratingDesc">По рейтингу</option>
-                        <option value="priceAsc">Цена: дешевле</option>
-                        <option value="priceDesc">Цена: дороже</option>
+                        <option value="popular">{t('shop.sort.popular')}</option>
+                        <option value="ratingDesc">{t('shop.sort.rating')}</option>
+                        <option value="priceAsc">{t('shop.sort.priceAsc')}</option>
+                        <option value="priceDesc">{t('shop.sort.priceDesc')}</option>
                     </select>
                 </div>
             </div>
@@ -110,22 +119,19 @@ export default function ShopPage() {
                         className={`${styles.filterBtn} ${filter === f ? styles.active : ''}`}
                         onClick={() => setFilter(f)}
                     >
-                        {f === 'all' && 'Все'}
-                        {f === 'espresso' && 'Эспрессо-смеси'}
-                        {f === 'arabica' && '100% Арабика'}
-                        {f === 'robusta' && 'С робустой'}
+                        {filterLabels[f]}
                         <span className={styles.filterCount}>{filterCounts[f]}</span>
                     </button>
                 ))}
             </div>
 
             {loading ? (
-                <div style={{ textAlign: 'center', padding: '48px', color: '#666' }}>
-                    Загрузка товаров...
+                <div style={{ textAlign: 'center', padding: '48px', color: 'var(--color-text-muted)' }}>
+                    {t('shop.loading')}
                 </div>
             ) : visibleProducts.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '48px', color: '#666' }}>
-                    Товары не найдены
+                <div style={{ textAlign: 'center', padding: '48px', color: 'var(--color-text-muted)' }}>
+                    {t('shop.empty')}
                 </div>
             ) : (
                 <div className={`${styles.productGrid} reveal`}>

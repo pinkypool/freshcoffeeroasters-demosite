@@ -61,13 +61,16 @@ export function CartProvider({ children }: { children: ReactNode }) {
         setItems((prev) => {
             const existingIndex = prev.findIndex((i) => i.sku === item.sku);
             if (existingIndex > -1) {
-                // Update existing item
+                // Add to existing item quantity
                 const updated = [...prev];
+                const existingItem = updated[existingIndex];
+                const newQuantity = existingItem.quantity + item.quantity;
+                const newPricePerKg = calculatePrice(item.sku, newQuantity);
                 updated[existingIndex] = {
-                    ...updated[existingIndex],
-                    quantity: item.quantity,
-                    pricePerKg: item.pricePerKg,
-                    total: item.total,
+                    ...existingItem,
+                    quantity: newQuantity,
+                    pricePerKg: newPricePerKg,
+                    total: newQuantity * newPricePerKg,
                 };
                 return updated;
             }
