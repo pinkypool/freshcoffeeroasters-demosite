@@ -46,6 +46,8 @@ import {
     FiChevronRight,
     FiLock,
     FiBell,
+    FiSun,
+    FiMoon,
 } from 'react-icons/fi';
 
 import {
@@ -154,6 +156,8 @@ export const Icons = {
     Lock: FiLock,
     Bell: FiBell,
     Warning: FiAlertTriangle,
+    Sun: FiSun,
+    Moon: FiMoon,
 
     // Social Media
     Instagram: FaInstagram,

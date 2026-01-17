@@ -58,11 +58,95 @@
     transform: translateY(-1px);
 }
 
-/* Actions (login + cart) */
+/* Actions (toggles, login + cart) */
 .actions {
     display: flex;
     align-items: center;
-    gap: var(--spacing-md);
+    gap: var(--spacing-sm);
+}
+
+/* Toggle Buttons (lang + theme) */
+.toggleBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    border-radius: 10px;
+    color: var(--color-text-main);
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.toggleBtn:hover {
+    background: rgba(255, 255, 255, 0.65);
+    transform: translateY(-1px);
+}
+
+.langLabel {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+[data-theme="dark"] .toggleBtn {
+    background: rgba(40, 40, 60, 0.6);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .toggleBtn:hover {
+    background: rgba(60, 60, 80, 0.7);
+}
+
+[data-theme="dark"] .header {
+    background: rgba(15, 15, 26, 0.75);
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .logo {
+    background: rgba(30, 30, 50, 0.72);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .navLink {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+[data-theme="dark"] .navLink:hover {
+    color: rgba(255, 255, 255, 1);
+}
+
+[data-theme="dark"] .loginBtn,
+[data-theme="dark"] .profileBtn {
+    background: rgba(40, 40, 60, 0.55);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+[data-theme="dark"] .loginBtn:hover,
+[data-theme="dark"] .profileBtn:hover {
+    background: rgba(60, 60, 80, 0.65);
+}
+
+[data-theme="dark"] .profileMenu {
+    background: rgba(25, 25, 45, 0.92);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme="dark"] .menuHeader {
+    background: rgba(35, 35, 55, 0.55);
+}
+
+[data-theme="dark"] .menuItem {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+[data-theme="dark"] .menuItem:hover {
+    background: rgba(50, 50, 70, 0.6);
 }
 
 /* Login Button */

@@ -4,12 +4,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
+import { useSettings } from '@/context/SettingsContext';
 import styles from './Header.module.css';
 import { Icons } from './Icons';
 
 export default function Header() {
     const { getItemCount, openCart } = useCart();
     const { isAuthenticated, user, openAuthModal, logout } = useAuth();
+    const { language, theme, setLanguage, toggleTheme, t } = useSettings();
     const [mounted, setMounted] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
     const profileMenuRef = useRef<HTMLDivElement>(null);
@@ -41,14 +43,36 @@ export default function Header() {
                 </Link>
 
                 <nav className={styles.nav}>
-                    <Link href="/shop" className={styles.navLink}>Магазин</Link>
-                    <Link href="/services" className={styles.navLink}>Услуги</Link>
-                    <Link href="/about" className={styles.navLink}>О нас</Link>
-                    <Link href="/faq" className={styles.navLink}>FAQ</Link>
-                    <Link href="/contact" className={styles.navLink}>Контакты</Link>
+                    <Link href="/shop" className={styles.navLink}>{t('nav.shop')}</Link>
+                    <Link href="/services" className={styles.navLink}>{t('nav.services')}</Link>
+                    <Link href="/about" className={styles.navLink}>{t('nav.about')}</Link>
+                    <Link href="/faq" className={styles.navLink}>{t('nav.faq')}</Link>
+                    <Link href="/contact" className={styles.navLink}>{t('nav.contact')}</Link>
                 </nav>
 
                 <div className={styles.actions}>
+                    {/* Language Toggle */}
+                    <button 
+                        className={styles.toggleBtn}
+                        onClick={() => setLanguage(language === 'ru' ? 'en' : 'ru')}
+                        title={language === 'ru' ? 'Switch to English' : 'Переключить на русский'}
+                    >
+                        <span className={styles.langLabel}>{language.toUpperCase()}</span>
+                    </button>
+
+                    {/* Theme Toggle */}
+                    <button 
+                        className={styles.toggleBtn}
+                        onClick={toggleTheme}
+                        title={theme === 'light' ? 'Dark mode' : 'Light mode'}
+                    >
+                        {mounted && theme === 'dark' ? (
+                            <Icons.Sun size={18} />
+                        ) : (
+                            <Icons.Moon size={18} />
+                        )}
+                    </button>
+
                     {isAuthenticated && user ? (
                         <div className={styles.profileWrapper} ref={profileMenuRef}>
                             <button
@@ -70,25 +94,25 @@ export default function Header() {
                                         </div>
                                         <div className={styles.menuInfo}>
                                             <strong>{user.name}</strong>
-                                            <span>{user.type === 'WHOLESALE' ? 'Оптовик' : 'Розница'}</span>
+                                            <span>{user.type === 'WHOLESALE' ? t('user.wholesale') : t('user.retail')}</span>
                                         </div>
                                     </div>
                                     <div className={styles.menuDivider}></div>
                                     <Link href="/account" className={styles.menuItem} onClick={() => setIsProfileMenuOpen(false)}>
-                                        <Icons.Grid size={18} /> Личный кабинет
+                                        <Icons.Grid size={18} /> {t('nav.account')}
                                     </Link>
                                     <Link href="/account/orders" className={styles.menuItem} onClick={() => setIsProfileMenuOpen(false)}>
-                                        <Icons.Package size={18} /> Мои заказы
+                                        <Icons.Package size={18} /> {t('nav.orders')}
                                     </Link>
                                     <Link href="/account/documents" className={styles.menuItem} onClick={() => setIsProfileMenuOpen(false)}>
-                                        <Icons.FileText size={18} /> Документы
+                                        <Icons.FileText size={18} /> {t('nav.documents')}
                                     </Link>
                                     <Link href="/account/settings" className={styles.menuItem} onClick={() => setIsProfileMenuOpen(false)}>
-                                        <Icons.Settings size={18} /> Настройки
+                                        <Icons.Settings size={18} /> {t('nav.settings')}
                                     </Link>
                                     <div className={styles.menuDivider}></div>
                                     <button className={styles.logoutBtn} onClick={() => { logout(); setIsProfileMenuOpen(false); }}>
-                                        <Icons.Logout size={18} /> Выйти
+                                        <Icons.Logout size={18} /> {t('nav.logout')}
                                     </button>
                                 </div>
                             )}
@@ -96,7 +120,7 @@ export default function Header() {
                     ) : (
                         <button className={styles.loginBtn} onClick={openAuthModal}>
                             <Icons.User size={18} />
-                            <span>Войти</span>
+                            <span>{t('nav.login')}</span>
                         </button>
                     )}
 
