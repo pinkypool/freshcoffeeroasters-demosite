@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
+import { useSettings } from '@/context/SettingsContext';
 import styles from './AuthModal.module.css';
 import { Icons } from './Icons';
 
@@ -9,13 +10,52 @@ type AuthTab = 'login' | 'register';
 
 export default function AuthModal() {
     const { isAuthModalOpen, closeAuthModal, login } = useAuth();
+    const { language } = useSettings();
     const [activeTab, setActiveTab] = useState<AuthTab>('login');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    // Login form state
     const [loginEmail, setLoginEmail] = useState('');
     const [loginPassword, setLoginPassword] = useState('');
+
+    const content = {
+        ru: {
+            loginTitle: 'Вход в аккаунт',
+            registerTitle: 'Регистрация',
+            loginTab: 'Вход',
+            registerTab: 'Регистрация',
+            email: 'Email',
+            password: 'Пароль',
+            loginBtn: 'Войти',
+            loggingIn: 'Вход...',
+            errorDefault: 'Неверный email или пароль',
+            errorGeneric: 'Ошибка входа. Попробуйте позже.',
+            whatsappTitle: 'Регистрация через WhatsApp',
+            whatsappText: 'Для создания аккаунта напишите нам в WhatsApp. Мы согласуем условия сотрудничества и пришлём вам логин и пароль для входа.',
+            whatsappBtn: 'Написать в WhatsApp',
+            whatsappNote: 'После получения доступа вы сможете войти через вкладку «Вход»',
+            whatsappMessage: 'Здравствуйте! Хочу зарегистрироваться как оптовый клиент Fresh Coffee.',
+        },
+        en: {
+            loginTitle: 'Sign In',
+            registerTitle: 'Register',
+            loginTab: 'Sign In',
+            registerTab: 'Register',
+            email: 'Email',
+            password: 'Password',
+            loginBtn: 'Sign In',
+            loggingIn: 'Signing in...',
+            errorDefault: 'Invalid email or password',
+            errorGeneric: 'Login error. Please try again later.',
+            whatsappTitle: 'Register via WhatsApp',
+            whatsappText: 'To create an account, message us on WhatsApp. We\'ll discuss partnership terms and send you login credentials.',
+            whatsappBtn: 'Message on WhatsApp',
+            whatsappNote: 'After receiving access, you can sign in using the "Sign In" tab',
+            whatsappMessage: 'Hello! I want to register as a wholesale client of Fresh Coffee.',
+        },
+    };
+
+    const t = content[language];
 
     if (!isAuthModalOpen) return null;
 
@@ -27,10 +67,10 @@ export default function AuthModal() {
         try {
             const result = await login(loginEmail, loginPassword);
             if (!result.success) {
-                setError(result.error || 'Неверный email или пароль');
+                setError(result.error || t.errorDefault);
             }
         } catch {
-            setError('Ошибка входа. Попробуйте позже.');
+            setError(t.errorGeneric);
         } finally {
             setIsLoading(false);
         }
@@ -43,7 +83,6 @@ export default function AuthModal() {
     };
 
     const whatsappNumber = '77075845229';
-    const whatsappMessage = 'Здравствуйте! Хочу зарегистрироваться как оптовый клиент Fresh Coffee.';
 
     return (
         <div className={styles.overlay} onClick={handleOverlayClick}>
@@ -54,20 +93,20 @@ export default function AuthModal() {
 
                 <div className={styles.header}>
                     <h2 className={styles.title}>
-                        {activeTab === 'login' ? 'Вход в аккаунт' : 'Регистрация'}
+                        {activeTab === 'login' ? t.loginTitle : t.registerTitle}
                     </h2>
                     <div className={styles.tabs}>
                         <button
                             className={`${styles.tab} ${activeTab === 'login' ? styles.active : ''}`}
                             onClick={() => setActiveTab('login')}
                         >
-                            Вход
+                            {t.loginTab}
                         </button>
                         <button
                             className={`${styles.tab} ${activeTab === 'register' ? styles.active : ''}`}
                             onClick={() => setActiveTab('register')}
                         >
-                            Регистрация
+                            {t.registerTab}
                         </button>
                     </div>
                 </div>
@@ -81,7 +120,7 @@ export default function AuthModal() {
                 {activeTab === 'login' ? (
                     <form onSubmit={handleLogin} className={styles.form}>
                         <div className={styles.inputGroup}>
-                            <label>Email</label>
+                            <label>{t.email}</label>
                             <input
                                 type="email"
                                 value={loginEmail}
@@ -91,7 +130,7 @@ export default function AuthModal() {
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Пароль</label>
+                            <label>{t.password}</label>
                             <input
                                 type="password"
                                 value={loginPassword}
@@ -102,7 +141,7 @@ export default function AuthModal() {
                             />
                         </div>
                         <button type="submit" className={styles.submitBtn} disabled={isLoading}>
-                            {isLoading ? 'Вход...' : 'Войти'}
+                            {isLoading ? t.loggingIn : t.loginBtn}
                         </button>
                     </form>
                 ) : (
@@ -110,24 +149,18 @@ export default function AuthModal() {
                         <div className={styles.registerIcon}>
                             <Icons.WhatsApp size={48} />
                         </div>
-                        <h3 className={styles.registerTitle}>Регистрация через WhatsApp</h3>
-                        <p className={styles.registerText}>
-                            Для создания аккаунта напишите нам в WhatsApp.
-                            Мы согласуем условия сотрудничества и пришлём вам
-                            логин и пароль для входа.
-                        </p>
+                        <h3 className={styles.registerTitle}>{t.whatsappTitle}</h3>
+                        <p className={styles.registerText}>{t.whatsappText}</p>
                         <a
-                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`}
+                            href={`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(t.whatsappMessage)}`}
                             className={styles.whatsappBtn}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             <Icons.WhatsApp size={20} />
-                            Написать в WhatsApp
+                            {t.whatsappBtn}
                         </a>
-                        <p className={styles.registerNote}>
-                            После получения доступа вы сможете войти через вкладку «Вход»
-                        </p>
+                        <p className={styles.registerNote}>{t.whatsappNote}</p>
                     </div>
                 )}
             </div>

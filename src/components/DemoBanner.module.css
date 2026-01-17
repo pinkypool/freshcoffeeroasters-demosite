@@ -76,6 +76,49 @@
     background: rgba(255, 255, 255, 0.1);
 }
 
+.credentialsGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    width: 100%;
+    margin: 16px 0;
+}
+
+.credentialBlock {
+    background: rgba(72, 73, 232, 0.08);
+    padding: 12px;
+    border-radius: 8px;
+    text-align: left;
+}
+
+.credentialBlock h4 {
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    color: var(--color-primary);
+}
+
+.credentialBlock .code {
+    background: rgba(72, 73, 232, 0.1);
+    margin-bottom: 6px;
+    font-size: 0.8rem;
+}
+
+.adminNote {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+[data-theme="dark"] .credentialBlock {
+    background: rgba(100, 100, 255, 0.15);
+}
+
+[data-theme="dark"] .credentialBlock .code {
+    background: rgba(100, 100, 255, 0.2);
+}
+
 .credentials {
     background: linear-gradient(135deg, #4849e8 0%, #6366f1 100%);
     color: white;
@@ -103,6 +146,31 @@
 
 .code:last-child {
     margin-bottom: 0;
+}
+
+.fullVersion {
+    background: rgba(72, 73, 232, 0.06);
+    border: 1px dashed rgba(72, 73, 232, 0.3);
+    padding: 1rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    text-align: left;
+    font-size: 0.9rem;
+}
+
+.fullVersion strong {
+    color: var(--color-primary);
+}
+
+.fullVersion p {
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+}
+
+[data-theme="dark"] .fullVersion {
+    background: rgba(100, 100, 255, 0.1);
+    border-color: rgba(100, 100, 255, 0.3);
 }
 
 .cta {

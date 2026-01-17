@@ -10,7 +10,6 @@ export default function DemoBanner() {
     const { language } = useSettings();
 
     useEffect(() => {
-        // Check if user has dismissed the banner before
         const dismissed = localStorage.getItem('demo-banner-dismissed');
         if (!dismissed) {
             setIsVisible(true);
@@ -34,31 +33,35 @@ export default function DemoBanner() {
     const content = {
         ru: {
             title: '👋 Добро пожаловать в демо!',
-            subtitle: 'Это демонстрация сайта Fresh Coffee Roasters',
+            subtitle: 'Демонстрация сайта Fresh Coffee Roasters',
             features: [
                 '🛒 Полнофункциональная корзина',
-                '👤 Личный кабинет с заказами',
+                '👤 Личный кабинет',
                 '🌙 Тёмная тема',
-                '🌐 Английский язык',
+                '🌐 RU/EN',
             ],
-            loginTitle: 'Для входа используйте:',
-            email: 'Email: demo@freshcoffeekz.com',
-            password: 'Пароль: demo123',
+            loginTitle: 'Демо-доступ:',
+            email: 'demo@freshcoffeekz.com',
+            password: 'demo123',
+            fullVersion: '🚀 Полная версия',
+            fullVersionText: 'В production-версии: админ-панель с управлением товарами, заказами, синхронизация с 1С, интеграция с платёжными системами.',
             cta: 'Понятно!',
             showAgain: '❔',
         },
         en: {
             title: '👋 Welcome to the demo!',
-            subtitle: 'This is a demonstration of Fresh Coffee Roasters website',
+            subtitle: 'Fresh Coffee Roasters website demo',
             features: [
-                '🛒 Fully functional cart',
-                '👤 Personal account with orders',
+                '🛒 Functional cart',
+                '👤 User account',
                 '🌙 Dark theme',
-                '🌐 English language',
+                '🌐 RU/EN',
             ],
-            loginTitle: 'Login credentials:',
-            email: 'Email: demo@freshcoffeekz.com',
-            password: 'Password: demo123',
+            loginTitle: 'Demo access:',
+            email: 'demo@freshcoffeekz.com',
+            password: 'demo123',
+            fullVersion: '🚀 Full Version',
+            fullVersionText: 'Production version includes: admin panel with product/order management, 1C sync, payment integrations.',
             cta: 'Got it!',
             showAgain: '❔',
         },
@@ -84,6 +87,11 @@ export default function DemoBanner() {
                             <h4>{t.loginTitle}</h4>
                             <code className={styles.code}>{t.email}</code>
                             <code className={styles.code}>{t.password}</code>
+                        </div>
+
+                        <div className={styles.fullVersion}>
+                            <strong>{t.fullVersion}</strong>
+                            <p>{t.fullVersionText}</p>
                         </div>
 
                         <button className={styles.cta} onClick={handleDismiss}>

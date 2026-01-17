@@ -230,7 +230,7 @@ const translations: Record<Language, Record<string, string>> = {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-    const [language, setLanguageState] = useState<Language>('ru');
+    const [language, setLanguageState] = useState<Language>('en');
     const [theme, setThemeState] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
@@ -245,9 +245,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         
         if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
             setThemeState(savedTheme);
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setThemeState('dark');
         }
+        // Default to light theme (no prefers-color-scheme detection)
         
         setMounted(true);
     }, []);
