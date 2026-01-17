@@ -1,7 +1,6 @@
 // src/lib/mockData.ts
 // Mock data for demo site - no database required
-
-import bcrypt from 'bcryptjs';
+// DEMO ONLY - uses plain text passwords for simplicity
 
 // ============ TYPES ============
 export interface OrderItem {
@@ -167,15 +166,17 @@ export const mockProducts = [
 ];
 
 // ============ USERS ============
-// Pre-hashed passwords: demo123 and admin123
-const DEMO_PASSWORD_HASH = '$2a$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lLKg4pQmGy'; // demo123
-const ADMIN_PASSWORD_HASH = '$2a$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDdWoXehVzJptJ/op0lLKg4pQmGy'; // admin123
+// Plain text passwords for demo simplicity
+const DEMO_PASSWORDS: Record<string, string> = {
+    'demo@freshcoffeekz.com': 'demo123',
+    'admin@freshcoffeekz.com': 'admin123',
+    'wholesale@freshcoffeekz.com': 'demo123',
+};
 
 export const mockUsers = [
     {
         id: 'demo-user-001',
         email: 'demo@freshcoffeekz.com',
-        passwordHash: DEMO_PASSWORD_HASH,
         name: 'Демо Пользователь',
         phone: '+7 777 123 4567',
         role: 'USER',
@@ -186,7 +187,6 @@ export const mockUsers = [
     {
         id: 'admin-user-001',
         email: 'admin@freshcoffeekz.com',
-        passwordHash: ADMIN_PASSWORD_HASH,
         name: 'Администратор',
         phone: '+7 700 111 2222',
         role: 'ADMIN',
@@ -197,7 +197,6 @@ export const mockUsers = [
     {
         id: 'wholesale-user-001',
         email: 'wholesale@freshcoffeekz.com',
-        passwordHash: DEMO_PASSWORD_HASH,
         name: 'Оптовый Клиент',
         phone: '+7 701 999 8888',
         role: 'USER',
@@ -306,8 +305,9 @@ export function findUserById(id: string) {
     return mockUsers.find(u => u.id === id);
 }
 
-export async function verifyPassword(password: string, hash: string): Promise<boolean> {
-    return bcrypt.compare(password, hash);
+export async function verifyPassword(password: string, email: string): Promise<boolean> {
+    const expectedPassword = DEMO_PASSWORDS[email.toLowerCase()];
+    return password === expectedPassword;
 }
 
 // ============ PRODUCT HELPERS ============

@@ -24,7 +24,7 @@ export const authOptions: NextAuthOptions = {
 
                 const isPasswordValid = await verifyPassword(
                     credentials.password,
-                    user.passwordHash
+                    user.email
                 );
 
                 if (!isPasswordValid) {
