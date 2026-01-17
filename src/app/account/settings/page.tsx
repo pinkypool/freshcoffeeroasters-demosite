@@ -5,11 +5,159 @@ import { useAuth } from '@/context/AuthContext';
 import { Icons } from '@/components/Icons';
 import styles from '../account.module.css';
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function SettingsPage() {
     const { user } = useAuth();
+    const { language } = useSettings();
     const [saved, setSaved] = useState(false);
     const [passwordSaved, setPasswordSaved] = useState(false);
     const [passwordError, setPasswordError] = useState('');
+
+    const content = {
+        ru: {
+            title: 'Настройки профиля',
+            subtitle: 'Управление личными данными и безопасностью',
+            personal: {
+                title: 'Личные данные',
+                name: 'Имя',
+                namePlaceholder: 'Ваше имя',
+                phone: 'Телефон',
+                phonePlaceholder: '+7 (___) ___-__-__',
+                email: 'Email',
+                emailPlaceholder: 'email@example.com',
+            },
+            company: {
+                title: 'Реквизиты компании',
+                name: 'Название организации',
+                namePlaceholder: 'ТОО "Название"',
+                inn: 'ИИН/БИН',
+                innPlaceholder: '123456789012',
+                kpp: 'КПП',
+                kppPlaceholder: '770101001',
+                legalAddress: 'Юридический адрес',
+                legalAddressPlaceholder: 'Полный юридический адрес',
+                actualAddress: 'Фактический адрес доставки',
+                actualAddressPlaceholder: 'Адрес для доставки',
+            },
+            password: {
+                title: 'Смена пароля',
+                current: 'Текущий пароль',
+                currentPlaceholder: '••••••••',
+                new: 'Новый пароль',
+                newPlaceholder: 'Минимум 6 символов',
+                confirm: 'Подтвердите пароль',
+                confirmPlaceholder: 'Повторите пароль',
+                btn: 'Сменить пароль',
+                success: 'Пароль изменён!',
+                errors: {
+                    length: 'Пароль должен быть минимум 6 символов',
+                    match: 'Пароли не совпадают',
+                    failed: 'Ошибка смены пароля',
+                    connection: 'Ошибка соединения',
+                }
+            },
+            notifications: {
+                title: 'Уведомления',
+                order: {
+                    title: 'Статус заказов',
+                    desc: 'Уведомления о изменении статуса заказов',
+                },
+                promo: {
+                    title: 'Акции и скидки',
+                    desc: 'Специальные предложения и промокоды',
+                },
+                news: {
+                    title: 'Новости и статьи',
+                    desc: 'Полезные материалы о кофе',
+                }
+            },
+            danger: {
+                title: 'Опасная зона',
+                text: 'Эти действия невозможно отменить. Будьте осторожны.',
+                btn: 'Удалить аккаунт',
+                confirm: 'Вы уверены? Все ваши данные будут удалены безвозвратно.',
+                wip: 'Функция удаления аккаунта в разработке',
+            },
+            save: {
+                btn: 'Сохранить изменения',
+                success: 'Сохранено!',
+                failed: 'Ошибка сохранения',
+            }
+        },
+        en: {
+            title: 'Profile Settings',
+            subtitle: 'Manage personal data and security',
+            personal: {
+                title: 'Personal Information',
+                name: 'Name',
+                namePlaceholder: 'Your name',
+                phone: 'Phone',
+                phonePlaceholder: '+7 (___) ___-__-__',
+                email: 'Email',
+                emailPlaceholder: 'email@example.com',
+            },
+            company: {
+                title: 'Company Details',
+                name: 'Company Name',
+                namePlaceholder: 'LLC "Company Name"',
+                inn: 'IIN/BIN',
+                innPlaceholder: '123456789012',
+                kpp: 'KPP',
+                kppPlaceholder: '770101001',
+                legalAddress: 'Legal Address',
+                legalAddressPlaceholder: 'Full legal address',
+                actualAddress: 'Delivery Address',
+                actualAddressPlaceholder: 'Delivery address',
+            },
+            password: {
+                title: 'Change Password',
+                current: 'Current Password',
+                currentPlaceholder: '••••••••',
+                new: 'New Password',
+                newPlaceholder: 'Minimum 6 characters',
+                confirm: 'Confirm Password',
+                confirmPlaceholder: 'Repeat password',
+                btn: 'Change Password',
+                success: 'Password Changed!',
+                errors: {
+                    length: 'Password must be at least 6 characters',
+                    match: 'Passwords do not match',
+                    failed: 'Password change failed',
+                    connection: 'Connection error',
+                }
+            },
+            notifications: {
+                title: 'Notifications',
+                order: {
+                    title: 'Order Status',
+                    desc: 'Notifications about order status changes',
+                },
+                promo: {
+                    title: 'Promotions & Discounts',
+                    desc: 'Special offers and promo codes',
+                },
+                news: {
+                    title: 'News & Articles',
+                    desc: 'Useful materials about coffee',
+                }
+            },
+            danger: {
+                title: 'Danger Zone',
+                text: 'These actions cannot be undone. Be careful.',
+                btn: 'Delete Account',
+                confirm: 'Are you sure? All your data will be permanently deleted.',
+                wip: 'Account deletion is under development',
+            },
+            save: {
+                btn: 'Save Changes',
+                success: 'Saved!',
+                failed: 'Save failed',
+            }
+        },
+    };
+
+    const t = content[language];
 
     // Get default company for wholesale users
     const defaultCompany = user?.companies?.find(c => c.isDefault) || user?.companies?.[0];
@@ -74,11 +222,11 @@ export default function SettingsPage() {
 
         // Validation
         if (passwordData.newPassword.length < 6) {
-            setPasswordError('Пароль должен быть минимум 6 символов');
+            setPasswordError(t.password.errors.length);
             return;
         }
         if (passwordData.newPassword !== passwordData.confirmPassword) {
-            setPasswordError('Пароли не совпадают');
+            setPasswordError(t.password.errors.match);
             return;
         }
 
@@ -98,57 +246,57 @@ export default function SettingsPage() {
                 setTimeout(() => setPasswordSaved(false), 3000);
             } else {
                 const data = await res.json();
-                setPasswordError(data.error || 'Ошибка смены пароля');
+                setPasswordError(data.error || t.password.errors.failed);
             }
         } catch (err) {
             console.error('Password change failed:', err);
-            setPasswordError('Ошибка соединения');
+            setPasswordError(t.password.errors.connection);
         }
     };
 
     return (
         <>
             <div className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>Настройки профиля</h1>
-                <p className={styles.pageSubtitle}>Управление личными данными и безопасностью</p>
+                <h1 className={styles.pageTitle}>{t.title}</h1>
+                <p className={styles.pageSubtitle}>{t.subtitle}</p>
             </div>
 
             <form onSubmit={handleSubmit}>
                 {/* Personal Info */}
                 <div className={styles.formSection}>
                     <h3 className={styles.formTitle}>
-                        <Icons.User size={20} /> Личные данные
+                        <Icons.User size={20} /> {t.personal.title}
                     </h3>
                     <div className={styles.formRow}>
                         <div className={styles.inputGroup}>
-                            <label>Имя</label>
+                            <label>{t.personal.name}</label>
                             <input
                                 type="text"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleChange}
-                                placeholder="Ваше имя"
+                                placeholder={t.personal.namePlaceholder}
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Телефон</label>
+                            <label>{t.personal.phone}</label>
                             <input
                                 type="tel"
                                 name="phone"
                                 value={formData.phone}
                                 onChange={handleChange}
-                                placeholder="+7 (___) ___-__-__"
+                                placeholder={t.personal.phonePlaceholder}
                             />
                         </div>
                     </div>
                     <div className={styles.inputGroup}>
-                        <label>Email</label>
+                        <label>{t.personal.email}</label>
                         <input
                             type="email"
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            placeholder="email@example.com"
+                            placeholder={t.personal.emailPlaceholder}
                         />
                     </div>
                 </div>
@@ -157,58 +305,58 @@ export default function SettingsPage() {
                 {user?.type === 'WHOLESALE' && (
                     <div className={styles.formSection}>
                         <h3 className={styles.formTitle}>
-                            <Icons.Building size={20} /> Реквизиты компании
+                            <Icons.Building size={20} /> {t.company.title}
                         </h3>
                         <div className={styles.inputGroup}>
-                            <label>Название организации</label>
+                            <label>{t.company.name}</label>
                             <input
                                 type="text"
                                 name="companyName"
                                 value={formData.companyName}
                                 onChange={handleChange}
-                                placeholder='ТОО "Название"'
+                                placeholder={t.company.namePlaceholder}
                             />
                         </div>
                         <div className={styles.formRow}>
                             <div className={styles.inputGroup}>
-                                <label>ИИН/БИН</label>
+                                <label>{t.company.inn}</label>
                                 <input
                                     type="text"
                                     name="companyInn"
                                     value={formData.companyInn}
                                     onChange={handleChange}
-                                    placeholder="123456789012"
+                                    placeholder={t.company.innPlaceholder}
                                 />
                             </div>
                             <div className={styles.inputGroup}>
-                                <label>КПП</label>
+                                <label>{t.company.kpp}</label>
                                 <input
                                     type="text"
                                     name="companyKpp"
                                     value={formData.companyKpp}
                                     onChange={handleChange}
-                                    placeholder="770101001"
+                                    placeholder={t.company.kppPlaceholder}
                                 />
                             </div>
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Юридический адрес</label>
+                            <label>{t.company.legalAddress}</label>
                             <input
                                 type="text"
                                 name="legalAddress"
                                 value={formData.legalAddress}
                                 onChange={handleChange}
-                                placeholder="Полный юридический адрес"
+                                placeholder={t.company.legalAddressPlaceholder}
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Фактический адрес доставки</label>
+                            <label>{t.company.actualAddress}</label>
                             <input
                                 type="text"
                                 name="actualAddress"
                                 value={formData.actualAddress}
                                 onChange={handleChange}
-                                placeholder="Адрес для доставки"
+                                placeholder={t.company.actualAddressPlaceholder}
                             />
                         </div>
                     </div>
@@ -217,11 +365,11 @@ export default function SettingsPage() {
                 <button type="submit" className={styles.saveBtn}>
                     {saved ? (
                         <>
-                            <Icons.Check size={18} /> Сохранено!
+                            <Icons.Check size={18} /> {t.save.success}
                         </>
                     ) : (
                         <>
-                            <Icons.Edit size={18} /> Сохранить изменения
+                            <Icons.Edit size={18} /> {t.save.btn}
                         </>
                     )}
                 </button>
@@ -231,37 +379,37 @@ export default function SettingsPage() {
             <form onSubmit={handlePasswordSubmit} style={{ marginTop: 32 }}>
                 <div className={styles.formSection}>
                     <h3 className={styles.formTitle}>
-                        <Icons.Lock size={20} /> Смена пароля
+                        <Icons.Lock size={20} /> {t.password.title}
                     </h3>
                     <div className={styles.inputGroup}>
-                        <label>Текущий пароль</label>
+                        <label>{t.password.current}</label>
                         <input
                             type="password"
                             name="currentPassword"
                             value={passwordData.currentPassword}
                             onChange={handlePasswordChange}
-                            placeholder="••••••••"
+                            placeholder={t.password.currentPlaceholder}
                         />
                     </div>
                     <div className={styles.formRow}>
                         <div className={styles.inputGroup}>
-                            <label>Новый пароль</label>
+                            <label>{t.password.new}</label>
                             <input
                                 type="password"
                                 name="newPassword"
                                 value={passwordData.newPassword}
                                 onChange={handlePasswordChange}
-                                placeholder="Минимум 6 символов"
+                                placeholder={t.password.newPlaceholder}
                             />
                         </div>
                         <div className={styles.inputGroup}>
-                            <label>Подтвердите пароль</label>
+                            <label>{t.password.confirm}</label>
                             <input
                                 type="password"
                                 name="confirmPassword"
                                 value={passwordData.confirmPassword}
                                 onChange={handlePasswordChange}
-                                placeholder="Повторите пароль"
+                                placeholder={t.password.confirmPlaceholder}
                             />
                         </div>
                     </div>
@@ -274,11 +422,11 @@ export default function SettingsPage() {
                 <button type="submit" className={styles.saveBtn} style={{ background: '#6366f1' }}>
                     {passwordSaved ? (
                         <>
-                            <Icons.Check size={18} /> Пароль изменён!
+                            <Icons.Check size={18} /> {t.password.success}
                         </>
                     ) : (
                         <>
-                            <Icons.Lock size={18} /> Сменить пароль
+                            <Icons.Lock size={18} /> {t.password.btn}
                         </>
                     )}
                 </button>
@@ -287,7 +435,7 @@ export default function SettingsPage() {
             {/* Notification Settings */}
             <div className={styles.formSection} style={{ marginTop: 32 }}>
                 <h3 className={styles.formTitle}>
-                    <Icons.Bell size={20} /> Уведомления
+                    <Icons.Bell size={20} /> {t.notifications.title}
                 </h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
@@ -298,8 +446,8 @@ export default function SettingsPage() {
                             style={{ width: 20, height: 20, accentColor: '#4849e8' }}
                         />
                         <div>
-                            <div style={{ fontWeight: 600 }}>Статус заказов</div>
-                            <div style={{ fontSize: '0.875rem', color: '#666' }}>Уведомления о изменении статуса заказов</div>
+                            <div style={{ fontWeight: 600 }}>{t.notifications.order.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: '#666' }}>{t.notifications.order.desc}</div>
                         </div>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
@@ -310,8 +458,8 @@ export default function SettingsPage() {
                             style={{ width: 20, height: 20, accentColor: '#4849e8' }}
                         />
                         <div>
-                            <div style={{ fontWeight: 600 }}>Акции и скидки</div>
-                            <div style={{ fontSize: '0.875rem', color: '#666' }}>Специальные предложения и промокоды</div>
+                            <div style={{ fontWeight: 600 }}>{t.notifications.promo.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: '#666' }}>{t.notifications.promo.desc}</div>
                         </div>
                     </label>
                     <label style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
@@ -322,8 +470,8 @@ export default function SettingsPage() {
                             style={{ width: 20, height: 20, accentColor: '#4849e8' }}
                         />
                         <div>
-                            <div style={{ fontWeight: 600 }}>Новости и статьи</div>
-                            <div style={{ fontSize: '0.875rem', color: '#666' }}>Полезные материалы о кофе</div>
+                            <div style={{ fontWeight: 600 }}>{t.notifications.news.title}</div>
+                            <div style={{ fontSize: '0.875rem', color: '#666' }}>{t.notifications.news.desc}</div>
                         </div>
                     </label>
                 </div>
@@ -332,16 +480,16 @@ export default function SettingsPage() {
             {/* Danger Zone */}
             <div className={styles.formSection} style={{ marginTop: 32, borderColor: '#fee2e2' }}>
                 <h3 className={styles.formTitle} style={{ color: '#ef4444' }}>
-                    <Icons.Warning size={20} /> Опасная зона
+                    <Icons.Warning size={20} /> {t.danger.title}
                 </h3>
                 <p style={{ color: '#666', marginBottom: 16, fontSize: '0.875rem' }}>
-                    Эти действия невозможно отменить. Будьте осторожны.
+                    {t.danger.text}
                 </p>
                 <button
                     type="button"
                     onClick={() => {
-                        if (confirm('Вы уверены? Все ваши данные будут удалены безвозвратно.')) {
-                            alert('Функция удаления аккаунта в разработке');
+                        if (confirm(t.danger.confirm)) {
+                            alert(t.danger.wip);
                         }
                     }}
                     style={{
@@ -354,7 +502,7 @@ export default function SettingsPage() {
                         cursor: 'pointer',
                     }}
                 >
-                    Удалить аккаунт
+                    {t.danger.btn}
                 </button>
             </div>
         </>

@@ -25,15 +25,7 @@ interface Order {
     items: OrderItem[];
 }
 
-const STATUS_LABELS: Record<string, string> = {
-    PENDING: 'Новый',
-    CONFIRMED: 'Подтверждён',
-    PAID: 'Оплачен',
-    PROCESSING: 'В обработке',
-    SHIPPED: 'Отправлен',
-    DELIVERED: 'Доставлен',
-    CANCELLED: 'Отменён',
-};
+
 
 const STATUS_COLORS: Record<string, string> = {
     PENDING: '#FF9800',
@@ -59,12 +51,94 @@ function formatDate(dateStr: string) {
 
 type FilterStatus = 'all' | 'active' | 'completed';
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function OrdersPage() {
     const { data: session } = useSession();
     const { addToCart } = useCart();
+    const { language } = useSettings();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState<FilterStatus>('all');
+
+    const content = {
+        ru: {
+            title: 'Мои заказы',
+            subtitle: 'История всех ваших заказов',
+            loading: 'Загрузка...',
+            filters: {
+                all: 'Все',
+                active: 'Активные',
+                completed: 'Завершённые',
+            },
+            table: {
+                number: '№ Заказа',
+                date: 'Дата',
+                items: 'Товары',
+                total: 'Сумма',
+                status: 'Статус',
+                actions: 'Действия',
+            },
+            actions: {
+                details: 'Детали',
+                repeat: 'Повторить',
+                repeatSuccess: 'Товары добавлены в корзину!',
+            },
+            empty: {
+                title: 'Заказы не найдены',
+                all: 'У вас пока нет заказов',
+                filtered: 'Нет заказов с выбранным фильтром',
+            },
+            status: {
+                PENDING: 'Новый',
+                CONFIRMED: 'Подтверждён',
+                PAID: 'Оплачен',
+                PROCESSING: 'В обработке',
+                SHIPPED: 'Отправлен',
+                DELIVERED: 'Доставлен',
+                CANCELLED: 'Отменён',
+            }
+        },
+        en: {
+            title: 'My Orders',
+            subtitle: 'History of all your orders',
+            loading: 'Loading...',
+            filters: {
+                all: 'All',
+                active: 'Active',
+                completed: 'Completed',
+            },
+            table: {
+                number: 'Order #',
+                date: 'Date',
+                items: 'Items',
+                total: 'Total',
+                status: 'Status',
+                actions: 'Actions',
+            },
+            actions: {
+                details: 'Details',
+                repeat: 'Repeat',
+                repeatSuccess: 'Items added to cart!',
+            },
+            empty: {
+                title: 'No orders found',
+                all: 'You have no orders yet',
+                filtered: 'No orders match the selected filter',
+            },
+            status: {
+                PENDING: 'New',
+                CONFIRMED: 'Confirmed',
+                PAID: 'Paid',
+                PROCESSING: 'Processing',
+                SHIPPED: 'Shipped',
+                DELIVERED: 'Delivered',
+                CANCELLED: 'Cancelled',
+            }
+        },
+    };
+
+    const t = content[language];
 
     useEffect(() => {
         if (session?.user) {
@@ -103,18 +177,18 @@ export default function OrdersPage() {
                 image: '/images/coffee-placeholder.jpg',
             });
         });
-        alert('Товары добавлены в корзину!');
+        alert(t.actions.repeatSuccess);
     };
 
     if (loading) {
-        return <div className={styles.pageHeader}>Загрузка...</div>;
+        return <div className={styles.pageHeader}>{t.loading}</div>;
     }
 
     return (
         <>
             <div className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>Мои заказы</h1>
-                <p className={styles.pageSubtitle}>История всех ваших заказов</p>
+                <h1 className={styles.pageTitle}>{t.title}</h1>
+                <p className={styles.pageSubtitle}>{t.subtitle}</p>
             </div>
 
             <div className={styles.filterBar}>
@@ -122,19 +196,19 @@ export default function OrdersPage() {
                     className={`${styles.filterBtn} ${filter === 'all' ? styles.active : ''}`}
                     onClick={() => setFilter('all')}
                 >
-                    Все ({orders.length})
+                    {t.filters.all} ({orders.length})
                 </button>
                 <button
                     className={`${styles.filterBtn} ${filter === 'active' ? styles.active : ''}`}
                     onClick={() => setFilter('active')}
                 >
-                    Активные ({activeCount})
+                    {t.filters.active} ({activeCount})
                 </button>
                 <button
                     className={`${styles.filterBtn} ${filter === 'completed' ? styles.active : ''}`}
                     onClick={() => setFilter('completed')}
                 >
-                    Завершённые ({completedCount})
+                    {t.filters.completed} ({completedCount})
                 </button>
             </div>
 
@@ -143,12 +217,12 @@ export default function OrdersPage() {
                     <table className={styles.ordersTable}>
                         <thead>
                             <tr>
-                                <th>№ Заказа</th>
-                                <th>Дата</th>
-                                <th>Товары</th>
-                                <th>Сумма</th>
-                                <th>Статус</th>
-                                <th>Действия</th>
+                                <th>{t.table.number}</th>
+                                <th>{t.table.date}</th>
+                                <th>{t.table.items}</th>
+                                <th>{t.table.total}</th>
+                                <th>{t.table.status}</th>
+                                <th>{t.table.actions}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,7 +235,7 @@ export default function OrdersPage() {
                                     <td>
                                         {order.items.map(item => (
                                             <div key={item.id} style={{ fontSize: '12px' }}>
-                                                {item.productName} × {item.quantity} кг
+                                                {item.productName} × {item.quantity} {language === 'ru' ? 'кг' : 'kg'}
                                             </div>
                                         ))}
                                     </td>
@@ -174,7 +248,7 @@ export default function OrdersPage() {
                                                 color: STATUS_COLORS[order.status] || '#666',
                                             }}
                                         >
-                                            {STATUS_LABELS[order.status] || order.status}
+                                            {t.status[order.status as keyof typeof t.status] || order.status}
                                         </span>
                                     </td>
                                     <td>
@@ -183,13 +257,13 @@ export default function OrdersPage() {
                                                 href={`/account/orders/${order.id}`}
                                                 className={styles.actionBtn}
                                             >
-                                                <Icons.Eye size={14} /> Детали
+                                                <Icons.Eye size={14} /> {t.actions.details}
                                             </Link>
                                             <button
                                                 className={styles.actionBtn}
                                                 onClick={() => handleRepeatOrder(order.items)}
                                             >
-                                                <Icons.Repeat size={14} /> Повторить
+                                                <Icons.Repeat size={14} /> {t.actions.repeat}
                                             </button>
                                         </div>
                                     </td>
@@ -202,8 +276,8 @@ export default function OrdersPage() {
                 <div className={styles.recentSection}>
                     <div className={styles.emptyState}>
                         <Icons.Package size={48} className={styles.emptyIcon} />
-                        <h3>Заказы не найдены</h3>
-                        <p>{filter === 'all' ? 'У вас пока нет заказов' : 'Нет заказов с выбранным фильтром'}</p>
+                        <h3>{t.empty.title}</h3>
+                        <p>{filter === 'all' ? t.empty.all : t.empty.filtered}</p>
                     </div>
                 </div>
             )}

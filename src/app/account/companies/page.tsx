@@ -6,8 +6,11 @@ import styles from '../account.module.css';
 import companyStyles from './companies.module.css';
 import { Icons } from '@/components/Icons';
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function CompaniesPage() {
     const { user, addCompany, updateCompany, deleteCompany, setDefaultCompany } = useAuth();
+    const { language } = useSettings();
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingCompany, setEditingCompany] = useState<Company | null>(null);
     const [formData, setFormData] = useState({
@@ -18,6 +21,91 @@ export default function CompaniesPage() {
         contactPerson: '',
         contactPhone: '',
     });
+
+    const content = {
+        ru: {
+            title: 'Мои компании',
+            addBtn: 'Добавить компанию',
+            empty: {
+                title: 'Нет сохранённых компаний',
+                text: 'Добавьте реквизиты компании для быстрого оформления заказов',
+                btn: 'Добавить первую компанию',
+            },
+            card: {
+                default: 'По умолчанию',
+                bin: 'БИН/ИИН:',
+                legal: 'Юр. адрес:',
+                delivery: 'Адрес доставки:',
+                contact: 'Контактное лицо:',
+                phone: 'Телефон:',
+                makeDefault: 'Сделать основной',
+                edit: 'Редактировать',
+                delete: 'Удалить',
+                deleteConfirm: 'Удалить эту компанию?',
+            },
+            form: {
+                titleNew: 'Новая компания',
+                titleEdit: 'Редактировать компанию',
+                name: 'Название компании *',
+                namePlaceholder: 'ТОО "Название" или ИП Иванов',
+                bin: 'БИН / ИИН *',
+                binPlaceholder: '123456789012',
+                legal: 'Юридический адрес *',
+                legalPlaceholder: 'г. Алматы, ул. Абая 150',
+                delivery: 'Адрес доставки',
+                deliveryPlaceholder: 'Совпадает с юр. адресом или укажите другой',
+                contact: 'Контактное лицо *',
+                contactPlaceholder: 'Иванов Иван',
+                phone: 'Телефон *',
+                phonePlaceholder: '+7 777 123 45 67',
+                cancel: 'Отмена',
+                save: 'Сохранить',
+                add: 'Добавить',
+            }
+        },
+        en: {
+            title: 'My Companies',
+            addBtn: 'Add Company',
+            empty: {
+                title: 'No saved companies',
+                text: 'Add company details for quick checkout',
+                btn: 'Add First Company',
+            },
+            card: {
+                default: 'Default',
+                bin: 'BIN/IIN:',
+                legal: 'Legal Address:',
+                delivery: 'Delivery Address:',
+                contact: 'Contact Person:',
+                phone: 'Phone:',
+                makeDefault: 'Make Default',
+                edit: 'Edit',
+                delete: 'Delete',
+                deleteConfirm: 'Delete this company?',
+            },
+            form: {
+                titleNew: 'New Company',
+                titleEdit: 'Edit Company',
+                name: 'Company Name *',
+                namePlaceholder: 'LLC "Company Name"',
+                bin: 'BIN / IIN *',
+                binPlaceholder: '123456789012',
+                legal: 'Legal Address *',
+                legalPlaceholder: 'Almaty, Abay ave. 150',
+                delivery: 'Delivery Address',
+                deliveryPlaceholder: 'Same as legal or specify other',
+                contact: 'Contact Person *',
+                contactPlaceholder: 'John Doe',
+                phone: 'Phone *',
+                phonePlaceholder: '+7 777 123 45 67',
+                cancel: 'Cancel',
+                save: 'Save',
+                add: 'Add',
+            }
+        },
+    };
+
+    const t = content[language];
 
     const resetForm = () => {
         setFormData({
@@ -56,7 +144,7 @@ export default function CompaniesPage() {
     };
 
     const handleDelete = (id: string) => {
-        if (confirm('Удалить эту компанию?')) {
+        if (confirm(t.card.deleteConfirm)) {
             deleteCompany(id);
         }
     };
@@ -66,26 +154,26 @@ export default function CompaniesPage() {
     return (
         <div className={styles.pageContent}>
             <div className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>Мои компании</h1>
+                <h1 className={styles.pageTitle}>{t.title}</h1>
                 <button
                     className={companyStyles.addBtn}
                     onClick={() => { resetForm(); setIsFormOpen(true); }}
                 >
                     <Icons.Package size={18} />
-                    Добавить компанию
+                    {t.addBtn}
                 </button>
             </div>
 
             {companies.length === 0 ? (
                 <div className={companyStyles.emptyState}>
                     <Icons.Office size={48} />
-                    <h3>Нет сохранённых компаний</h3>
-                    <p>Добавьте реквизиты компании для быстрого оформления заказов</p>
+                    <h3>{t.empty.title}</h3>
+                    <p>{t.empty.text}</p>
                     <button
                         className={companyStyles.addBtnLarge}
                         onClick={() => setIsFormOpen(true)}
                     >
-                        Добавить первую компанию
+                        {t.empty.btn}
                     </button>
                 </div>
             ) : (
@@ -98,29 +186,29 @@ export default function CompaniesPage() {
                             {company.isDefault && (
                                 <div className={companyStyles.defaultBadge}>
                                     <Icons.Check size={14} />
-                                    По умолчанию
+                                    {t.card.default}
                                 </div>
                             )}
                             <h3 className={companyStyles.companyName}>{company.name}</h3>
                             <div className={companyStyles.companyInfo}>
                                 <div className={companyStyles.infoRow}>
-                                    <span className={companyStyles.label}>БИН/ИИН:</span>
+                                    <span className={companyStyles.label}>{t.card.bin}</span>
                                     <span>{company.bin}</span>
                                 </div>
                                 <div className={companyStyles.infoRow}>
-                                    <span className={companyStyles.label}>Юр. адрес:</span>
+                                    <span className={companyStyles.label}>{t.card.legal}</span>
                                     <span>{company.legalAddress}</span>
                                 </div>
                                 <div className={companyStyles.infoRow}>
-                                    <span className={companyStyles.label}>Адрес доставки:</span>
+                                    <span className={companyStyles.label}>{t.card.delivery}</span>
                                     <span>{company.deliveryAddress}</span>
                                 </div>
                                 <div className={companyStyles.infoRow}>
-                                    <span className={companyStyles.label}>Контактное лицо:</span>
+                                    <span className={companyStyles.label}>{t.card.contact}</span>
                                     <span>{company.contactPerson}</span>
                                 </div>
                                 <div className={companyStyles.infoRow}>
-                                    <span className={companyStyles.label}>Телефон:</span>
+                                    <span className={companyStyles.label}>{t.card.phone}</span>
                                     <span>{company.contactPhone}</span>
                                 </div>
                             </div>
@@ -130,20 +218,20 @@ export default function CompaniesPage() {
                                         className={companyStyles.actionBtn}
                                         onClick={() => setDefaultCompany(company.id)}
                                     >
-                                        Сделать основной
+                                        {t.card.makeDefault}
                                     </button>
                                 )}
                                 <button
                                     className={companyStyles.actionBtnIcon}
                                     onClick={() => handleEdit(company)}
-                                    title="Редактировать"
+                                    title={t.card.edit}
                                 >
                                     <Icons.Edit size={16} />
                                 </button>
                                 <button
                                     className={`${companyStyles.actionBtnIcon} ${companyStyles.danger}`}
                                     onClick={() => handleDelete(company.id)}
-                                    title="Удалить"
+                                    title={t.card.delete}
                                 >
                                     <Icons.Close size={16} />
                                 </button>
@@ -158,7 +246,7 @@ export default function CompaniesPage() {
                 <div className={companyStyles.modalOverlay} onClick={() => setIsFormOpen(false)}>
                     <div className={companyStyles.modal} onClick={(e) => e.stopPropagation()}>
                         <div className={companyStyles.modalHeader}>
-                            <h2>{editingCompany ? 'Редактировать компанию' : 'Новая компания'}</h2>
+                            <h2>{editingCompany ? t.form.titleEdit : t.form.titleNew}</h2>
                             <button
                                 className={companyStyles.closeBtn}
                                 onClick={() => setIsFormOpen(false)}
@@ -168,62 +256,62 @@ export default function CompaniesPage() {
                         </div>
                         <form onSubmit={handleSubmit} className={companyStyles.form}>
                             <div className={companyStyles.formGroup}>
-                                <label>Название компании *</label>
+                                <label>{t.form.name}</label>
                                 <input
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    placeholder='ТОО "Название" или ИП Иванов'
+                                    placeholder={t.form.namePlaceholder}
                                     required
                                 />
                             </div>
                             <div className={companyStyles.formGroup}>
-                                <label>БИН / ИИН *</label>
+                                <label>{t.form.bin}</label>
                                 <input
                                     type="text"
                                     value={formData.bin}
                                     onChange={(e) => setFormData({ ...formData, bin: e.target.value })}
-                                    placeholder="123456789012"
+                                    placeholder={t.form.binPlaceholder}
                                     required
                                 />
                             </div>
                             <div className={companyStyles.formGroup}>
-                                <label>Юридический адрес *</label>
+                                <label>{t.form.legal}</label>
                                 <input
                                     type="text"
                                     value={formData.legalAddress}
                                     onChange={(e) => setFormData({ ...formData, legalAddress: e.target.value })}
-                                    placeholder="г. Алматы, ул. Абая 150"
+                                    placeholder={t.form.legalPlaceholder}
                                     required
                                 />
                             </div>
                             <div className={companyStyles.formGroup}>
-                                <label>Адрес доставки</label>
+                                <label>{t.form.delivery}</label>
                                 <input
                                     type="text"
                                     value={formData.deliveryAddress}
                                     onChange={(e) => setFormData({ ...formData, deliveryAddress: e.target.value })}
-                                    placeholder="Совпадает с юр. адресом или укажите другой"
+                                    placeholder={t.form.deliveryPlaceholder}
                                 />
                             </div>
                             <div className={companyStyles.formRow}>
                                 <div className={companyStyles.formGroup}>
-                                    <label>Контактное лицо *</label>
+                                    <label>{t.form.contact}</label>
                                     <input
                                         type="text"
                                         value={formData.contactPerson}
                                         onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
-                                        placeholder="Иванов Иван"
+                                        placeholder={t.form.contactPlaceholder}
                                         required
                                     />
                                 </div>
                                 <div className={companyStyles.formGroup}>
-                                    <label>Телефон *</label>
+                                    <label>{t.form.phone}</label>
                                     <input
                                         type="tel"
                                         value={formData.contactPhone}
                                         onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                                        placeholder="+7 777 123 45 67"
+                                        placeholder={t.form.phonePlaceholder}
                                         required
                                     />
                                 </div>
@@ -234,10 +322,10 @@ export default function CompaniesPage() {
                                     className={companyStyles.cancelBtn}
                                     onClick={() => setIsFormOpen(false)}
                                 >
-                                    Отмена
+                                    {t.form.cancel}
                                 </button>
                                 <button type="submit" className={companyStyles.submitBtn}>
-                                    {editingCompany ? 'Сохранить' : 'Добавить'}
+                                    {editingCompany ? t.form.save : t.form.add}
                                 </button>
                             </div>
                         </form>

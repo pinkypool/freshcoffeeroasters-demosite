@@ -7,6 +7,8 @@ import { useAuth } from '@/context/AuthContext';
 import { Icons } from '@/components/Icons';
 import styles from './account.module.css';
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function AccountLayout({
     children,
 }: {
@@ -15,6 +17,50 @@ export default function AccountLayout({
     const pathname = usePathname();
     const router = useRouter();
     const { isAuthenticated, user, logout, openAuthModal } = useAuth();
+    const { language } = useSettings();
+
+    const content = {
+        ru: {
+            loginTitle: 'Войдите в аккаунт',
+            loginText: 'Для доступа к личному кабинету необходимо авторизоваться',
+            loginBtn: 'Войти',
+            nav: {
+                overview: 'Обзор',
+                orders: 'Мои заказы',
+                favorites: 'Избранное',
+                companies: 'Мои компании',
+                manager: 'Ваш менеджер',
+                documents: 'Документы',
+                settings: 'Настройки',
+                logout: 'Выйти',
+            },
+            roles: {
+                wholesale: 'Оптовик',
+                retail: 'Розница',
+            }
+        },
+        en: {
+            loginTitle: 'Sign In',
+            loginText: 'Please sign in to access your account',
+            loginBtn: 'Sign In',
+            nav: {
+                overview: 'Overview',
+                orders: 'My Orders',
+                favorites: 'Favorites',
+                companies: 'My Companies',
+                manager: 'Your Manager',
+                documents: 'Documents',
+                settings: 'Settings',
+                logout: 'Sign Out',
+            },
+            roles: {
+                wholesale: 'Wholesale',
+                retail: 'Retail',
+            }
+        },
+    };
+
+    const t = content[language];
 
     // If not authenticated, show login prompt
     if (!isAuthenticated || !user) {
@@ -24,10 +70,10 @@ export default function AccountLayout({
                     <div className={styles.emptyIcon}>
                         <Icons.User size={64} />
                     </div>
-                    <h3>Войдите в аккаунт</h3>
-                    <p>Для доступа к личному кабинету необходимо авторизоваться</p>
+                    <h3>{t.loginTitle}</h3>
+                    <p>{t.loginText}</p>
                     <button className={styles.emptyBtn} onClick={openAuthModal}>
-                        <Icons.User size={18} /> Войти
+                        <Icons.User size={18} /> {t.loginBtn}
                     </button>
                 </div>
             </div>
@@ -35,13 +81,13 @@ export default function AccountLayout({
     }
 
     const navItems = [
-        { href: '/account', label: 'Обзор', icon: Icons.Grid },
-        { href: '/account/orders', label: 'Мои заказы', icon: Icons.Package },
-        { href: '/account/favorites', label: 'Избранное', icon: Icons.Heart },
-        { href: '/account/companies', label: 'Мои компании', icon: Icons.Office },
-        { href: '/account/manager', label: 'Ваш менеджер', icon: Icons.User },
-        { href: '/account/documents', label: 'Документы', icon: Icons.FileText },
-        { href: '/account/settings', label: 'Настройки', icon: Icons.Settings },
+        { href: '/account', label: t.nav.overview, icon: Icons.Grid },
+        { href: '/account/orders', label: t.nav.orders, icon: Icons.Package },
+        { href: '/account/favorites', label: t.nav.favorites, icon: Icons.Heart },
+        { href: '/account/companies', label: t.nav.companies, icon: Icons.Office },
+        { href: '/account/manager', label: t.nav.manager, icon: Icons.User },
+        { href: '/account/documents', label: t.nav.documents, icon: Icons.FileText },
+        { href: '/account/settings', label: t.nav.settings, icon: Icons.Settings },
     ];
 
     const handleLogout = () => {
@@ -58,7 +104,7 @@ export default function AccountLayout({
                     </div>
                     <div className={styles.sidebarInfo}>
                         <h3>{user.name}</h3>
-                        <span>{user.type === 'WHOLESALE' ? 'Оптовик' : 'Розница'}</span>
+                        <span>{user.type === 'WHOLESALE' ? t.roles.wholesale : t.roles.retail}</span>
                     </div>
                 </div>
 
@@ -79,7 +125,7 @@ export default function AccountLayout({
                         className={`${styles.navItem} ${styles.logoutItem}`}
                         onClick={handleLogout}
                     >
-                        <Icons.Logout size={20} /> Выйти
+                        <Icons.Logout size={20} /> {t.nav.logout}
                     </button>
                 </nav>
             </aside>

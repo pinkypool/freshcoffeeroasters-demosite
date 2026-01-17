@@ -6,10 +6,79 @@ import styles from '../account.module.css';
 import managerStyles from './manager.module.css';
 import { Icons } from '@/components/Icons';
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function ManagerPage() {
+    const { language } = useSettings();
+
+    const content = {
+        ru: {
+            title: 'Ваш менеджер',
+            position: 'Персональный менеджер',
+            online: 'Онлайн',
+            conditions: {
+                title: 'Ваши условия сотрудничества',
+                volume: {
+                    title: 'Скидка от объёма',
+                    desc: 'До 15% при заказе от 20 кг',
+                },
+                delivery: {
+                    title: 'Бесплатная доставка',
+                    desc: 'При заказе от 10 000 ₸',
+                },
+                payment: {
+                    title: 'Оплата',
+                    desc: 'Карта, наличные, счёт для ТОО/ИП',
+                },
+                deferral: {
+                    title: 'Отсрочка платежа',
+                    desc: 'До 14 дней для постоянных клиентов',
+                },
+            },
+            help: {
+                title: 'Нужна помощь?',
+                text: 'Ваш менеджер поможет подобрать оптимальные сорта кофе, рассчитает индивидуальную скидку и ответит на все вопросы.',
+                btn: 'Написать менеджеру',
+                msg: 'Добрый день! Хочу задать вопрос по заказу.',
+            }
+        },
+        en: {
+            title: 'Your Manager',
+            position: 'Personal Manager',
+            online: 'Online',
+            conditions: {
+                title: 'Your Cooperation Terms',
+                volume: {
+                    title: 'Volume Discount',
+                    desc: 'Up to 15% for orders over 20 kg',
+                },
+                delivery: {
+                    title: 'Free Delivery',
+                    desc: 'For orders over 10 000 ₸',
+                },
+                payment: {
+                    title: 'Payment',
+                    desc: 'Card, cash, invoice for LLC/IE',
+                },
+                deferral: {
+                    title: 'Deferred Payment',
+                    desc: 'Up to 14 days for regular clients',
+                },
+            },
+            help: {
+                title: 'Need Help?',
+                text: 'Your manager will help you choose the best coffee varieties, calculate an individual discount, and answer all your questions.',
+                btn: 'Contact Manager',
+                msg: 'Hello! I have a question about my order.',
+            }
+        },
+    };
+
+    const t = content[language];
+
     const manager = {
         name: 'Нурия',
-        position: 'Персональный менеджер',
+        position: t.position,
         phone: '+7 707 584 52 29',
         email: 'nuriya@freshcoffee.kz',
         whatsapp: '+77075845229',
@@ -20,30 +89,30 @@ export default function ManagerPage() {
     const conditions = [
         {
             icon: Icons.Percent,
-            title: 'Скидка от объёма',
-            description: 'До 15% при заказе от 20 кг',
+            title: t.conditions.volume.title,
+            description: t.conditions.volume.desc,
         },
         {
             icon: Icons.Truck,
-            title: 'Бесплатная доставка',
-            description: 'При заказе от 10 000 ₸',
+            title: t.conditions.delivery.title,
+            description: t.conditions.delivery.desc,
         },
         {
             icon: Icons.Card,
-            title: 'Оплата',
-            description: 'Карта, наличные, счёт для ТОО/ИП',
+            title: t.conditions.payment.title,
+            description: t.conditions.payment.desc,
         },
         {
             icon: Icons.Clock,
-            title: 'Отсрочка платежа',
-            description: 'До 14 дней для постоянных клиентов',
+            title: t.conditions.deferral.title,
+            description: t.conditions.deferral.desc,
         },
     ];
 
     return (
         <div className={styles.pageContent}>
             <div className={styles.pageHeader}>
-                <h1 className={styles.pageTitle}>Ваш менеджер</h1>
+                <h1 className={styles.pageTitle}>{t.title}</h1>
             </div>
 
             {/* Manager Card */}
@@ -58,7 +127,7 @@ export default function ManagerPage() {
                     />
                     <div className={managerStyles.statusBadge}>
                         <span className={managerStyles.statusDot}></span>
-                        Онлайн
+                        {t.online}
                     </div>
                 </div>
                 <div className={managerStyles.managerInfo}>
@@ -100,7 +169,7 @@ export default function ManagerPage() {
             </div>
 
             {/* Conditions */}
-            <h2 className={managerStyles.sectionTitle}>Ваши условия сотрудничества</h2>
+            <h2 className={managerStyles.sectionTitle}>{t.conditions.title}</h2>
             <div className={managerStyles.conditionsGrid}>
                 {conditions.map((condition, index) => (
                     <div key={index} className={managerStyles.conditionCard}>
@@ -117,15 +186,15 @@ export default function ManagerPage() {
 
             {/* Quick Help */}
             <div className={managerStyles.helpSection}>
-                <h3>Нужна помощь?</h3>
-                <p>Ваш менеджер поможет подобрать оптимальные сорта кофе, рассчитает индивидуальную скидку и ответит на все вопросы.</p>
+                <h3>{t.help.title}</h3>
+                <p>{t.help.text}</p>
                 <a
-                    href={`https://wa.me/${manager.whatsapp}?text=Добрый день! Хочу задать вопрос по заказу.`}
+                    href={`https://wa.me/${manager.whatsapp}?text=${encodeURIComponent(t.help.msg)}`}
                     className={managerStyles.helpBtn}
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Написать менеджеру
+                    {t.help.btn}
                 </a>
             </div>
         </div>

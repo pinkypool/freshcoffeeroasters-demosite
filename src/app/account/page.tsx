@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import { Icons } from '@/components/Icons';
 import styles from './account.module.css';
+import { useSettings } from '@/context/SettingsContext';
 
 interface OrderItem {
     id: string;
@@ -29,16 +30,6 @@ interface Order {
     items: OrderItem[];
 }
 
-const STATUS_LABELS: Record<string, string> = {
-    PENDING: 'Новый',
-    CONFIRMED: 'Подтверждён',
-    PAID: 'Оплачен',
-    PROCESSING: 'В обработке',
-    SHIPPED: 'Отправлен',
-    DELIVERED: 'Доставлен',
-    CANCELLED: 'Отменён',
-};
-
 const STATUS_COLORS: Record<string, string> = {
     PENDING: '#FF9800',
     CONFIRMED: '#2196F3',
@@ -62,9 +53,75 @@ function formatDate(dateStr: string) {
 }
 
 export default function AccountPage() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const { language } = useSettings();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const content = {
+        ru: {
+            welcome: 'Добро пожаловать',
+            subtitle: 'Управляйте заказами и настройками аккаунта',
+            loading: 'Загрузка...',
+            totalOrders: 'Всего заказов',
+            activeOrders: 'Активных',
+            totalSpent: 'Сумма заказов',
+            recentOrders: 'Последние заказы',
+            viewAll: 'Все заказы',
+            table: {
+                number: '№ Заказа',
+                date: 'Дата',
+                total: 'Сумма',
+                status: 'Статус',
+            },
+            empty: {
+                title: 'Пока нет заказов',
+                text: 'Оформите первый заказ в нашем магазине',
+                btn: 'Перейти в магазин',
+            },
+            status: {
+                PENDING: 'Новый',
+                CONFIRMED: 'Подтверждён',
+                PAID: 'Оплачен',
+                PROCESSING: 'В обработке',
+                SHIPPED: 'Отправлен',
+                DELIVERED: 'Доставлен',
+                CANCELLED: 'Отменён',
+            }
+        },
+        en: {
+            welcome: 'Welcome',
+            subtitle: 'Manage your orders and account settings',
+            loading: 'Loading...',
+            totalOrders: 'Total Orders',
+            activeOrders: 'Active',
+            totalSpent: 'Total Spent',
+            recentOrders: 'Recent Orders',
+            viewAll: 'All Orders',
+            table: {
+                number: 'Order #',
+                date: 'Date',
+                total: 'Total',
+                status: 'Status',
+            },
+            empty: {
+                title: 'No orders yet',
+                text: 'Place your first order in our shop',
+                btn: 'Go to Shop',
+            },
+            status: {
+                PENDING: 'New',
+                CONFIRMED: 'Confirmed',
+                PAID: 'Paid',
+                PROCESSING: 'Processing',
+                SHIPPED: 'Shipped',
+                DELIVERED: 'Delivered',
+                CANCELLED: 'Cancelled',
+            }
+        },
+    };
+
+    const t = content[language];
 
     useEffect(() => {
         if (session?.user) {
@@ -75,10 +132,10 @@ export default function AccountPage() {
                 })
                 .catch(err => console.error('Fetch orders error:', err))
                 .finally(() => setLoading(false));
-        } else {
+        } else if (status !== 'loading') {
             setLoading(false);
         }
-    }, [session]);
+    }, [session, status]);
 
     const totalOrders = orders.length;
     const activeOrders = orders.filter(o =>
@@ -88,16 +145,16 @@ export default function AccountPage() {
     const recentOrders = orders.slice(0, 5);
 
     if (loading) {
-        return <div className={styles.pageHeader}>Загрузка...</div>;
+        return <div className={styles.pageHeader}>{t.loading}</div>;
     }
 
     return (
         <>
             <div className={styles.pageHeader}>
                 <h1 className={styles.pageTitle}>
-                    Добро пожаловать{session?.user?.name ? `, ${session.user.name.split(' ')[0]}` : ''}!
+                    {t.welcome}{session?.user?.name ? `, ${session.user.name.split(' ')[0]}` : ''}!
                 </h1>
-                <p className={styles.pageSubtitle}>Управляйте заказами и настройками аккаунта</p>
+                <p className={styles.pageSubtitle}>{t.subtitle}</p>
             </div>
 
             {/* Dashboard Cards */}
@@ -107,7 +164,7 @@ export default function AccountPage() {
                         <Icons.Package size={28} />
                     </div>
                     <div className={styles.dashInfo}>
-                        <h4>Всего заказов</h4>
+                        <h4>{t.totalOrders}</h4>
                         <span className={styles.dashValue}>{totalOrders}</span>
                     </div>
                 </Link>
@@ -117,7 +174,7 @@ export default function AccountPage() {
                         <Icons.Truck size={28} />
                     </div>
                     <div className={styles.dashInfo}>
-                        <h4>Активных</h4>
+                        <h4>{t.activeOrders}</h4>
                         <span className={styles.dashValue}>{activeOrders}</span>
                     </div>
                 </Link>
@@ -127,7 +184,7 @@ export default function AccountPage() {
                         <Icons.Currency size={28} />
                     </div>
                     <div className={styles.dashInfo}>
-                        <h4>Сумма заказов</h4>
+                        <h4>{t.totalSpent}</h4>
                         <span className={styles.dashValue}>{formatPrice(totalSpent)}</span>
                     </div>
                 </div>
@@ -136,9 +193,9 @@ export default function AccountPage() {
             {/* Recent Orders */}
             <div className={styles.recentSection}>
                 <div className={styles.sectionHeader}>
-                    <h2 className={styles.sectionTitle}>Последние заказы</h2>
+                    <h2 className={styles.sectionTitle}>{t.recentOrders}</h2>
                     <Link href="/account/orders" className={styles.sectionLink}>
-                        Все заказы <Icons.ChevronRight size={16} />
+                        {t.viewAll} <Icons.ChevronRight size={16} />
                     </Link>
                 </div>
 
@@ -146,10 +203,10 @@ export default function AccountPage() {
                     <table className={styles.ordersTable}>
                         <thead>
                             <tr>
-                                <th>№ Заказа</th>
-                                <th>Дата</th>
-                                <th>Сумма</th>
-                                <th>Статус</th>
+                                <th>{t.table.number}</th>
+                                <th>{t.table.date}</th>
+                                <th>{t.table.total}</th>
+                                <th>{t.table.status}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -168,7 +225,7 @@ export default function AccountPage() {
                                                 color: STATUS_COLORS[order.status] || '#666',
                                             }}
                                         >
-                                            {STATUS_LABELS[order.status] || order.status}
+                                            {t.status[order.status as keyof typeof t.status] || order.status}
                                         </span>
                                     </td>
                                 </tr>
@@ -178,10 +235,10 @@ export default function AccountPage() {
                 ) : (
                     <div className={styles.emptyState}>
                         <Icons.Package size={48} className={styles.emptyIcon} />
-                        <h3>Пока нет заказов</h3>
-                        <p>Оформите первый заказ в нашем магазине</p>
+                        <h3>{t.empty.title}</h3>
+                        <p>{t.empty.text}</p>
                         <Link href="/" className={styles.emptyBtn}>
-                            <Icons.Cart size={18} /> Перейти в магазин
+                            <Icons.Cart size={18} /> {t.empty.btn}
                         </Link>
                     </div>
                 )}

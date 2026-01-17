@@ -35,11 +35,47 @@ function formatFileSize(bytes: number) {
     return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
 
+import { useSettings } from '@/context/SettingsContext';
+
 export default function DocumentsPage() {
     const { data: session } = useSession();
+    const { language } = useSettings();
     const [documents, setDocuments] = useState<Document[]>([]);
     const [loading, setLoading] = useState(true);
     const [syncing, setSyncing] = useState(false);
+
+    const content = {
+        ru: {
+            title: 'Документы',
+            subtitle: 'Счета, УПД и накладные по вашим заказам',
+            loading: 'Загрузка...',
+            update: 'Обновить',
+            updating: 'Обновление...',
+            download: 'Скачать',
+            order: 'Заказ',
+            empty: {
+                title: 'Документов пока нет',
+                text: 'Счета и другие документы появятся после оформления заказов',
+                note: 'Для оптовых заказов: счёт формируется в рабочие дни (пн-пт, 9:00-18:00)',
+            }
+        },
+        en: {
+            title: 'Documents',
+            subtitle: 'Invoices and waybills for your orders',
+            loading: 'Loading...',
+            update: 'Update',
+            updating: 'Updating...',
+            download: 'Download',
+            order: 'Order',
+            empty: {
+                title: 'No documents yet',
+                text: 'Invoices and other documents will appear after placing orders',
+                note: 'For wholesale orders: invoice is generated on business days (Mon-Fri, 9:00-18:00)',
+            }
+        },
+    };
+
+    const t = content[language];
 
     const fetchAllDocuments = async () => {
         if (!session?.user) return;
@@ -94,7 +130,7 @@ export default function DocumentsPage() {
     }, [session]);
 
     if (loading) {
-        return <div className={styles.pageHeader}>Загрузка...</div>;
+        return <div className={styles.pageHeader}>{t.loading}</div>;
     }
 
     return (
@@ -102,8 +138,8 @@ export default function DocumentsPage() {
             <div className={styles.pageHeader}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                        <h1 className={styles.pageTitle}>Документы</h1>
-                        <p className={styles.pageSubtitle}>Счета, УПД и накладные по вашим заказам</p>
+                        <h1 className={styles.pageTitle}>{t.title}</h1>
+                        <p className={styles.pageSubtitle}>{t.subtitle}</p>
                     </div>
                     <button
                         onClick={fetchAllDocuments}
@@ -112,7 +148,7 @@ export default function DocumentsPage() {
                         style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                     >
                         <Icons.Repeat size={16} style={{ animation: syncing ? 'spin 1s linear infinite' : 'none' }} />
-                        {syncing ? 'Обновление...' : 'Обновить'}
+                        {syncing ? t.updating : t.update}
                     </button>
                 </div>
             </div>
@@ -140,7 +176,7 @@ export default function DocumentsPage() {
                                             href={`/account/orders/${doc.orderId}`}
                                             style={{ color: '#4849e8', textDecoration: 'none' }}
                                         >
-                                            Заказ {doc.orderNumber}
+                                            {t.order} {doc.orderNumber}
                                         </Link>
                                         {' • '}
                                         {formatFileSize(doc.size)}
@@ -155,7 +191,7 @@ export default function DocumentsPage() {
                                     className={styles.actionBtn}
                                     style={{ display: 'flex', alignItems: 'center', gap: '6px' }}
                                 >
-                                    <Icons.Download size={16} /> Скачать
+                                    <Icons.Download size={16} /> {t.download}
                                 </a>
                             </div>
                         ))}
@@ -171,12 +207,12 @@ export default function DocumentsPage() {
                         color: '#5D4037',
                     }}>
                         <Icons.FileText size={48} style={{ marginBottom: '16px', color: '#F9A825', opacity: 0.6 }} />
-                        <h3 style={{ margin: '0 0 8px' }}>Документов пока нет</h3>
+                        <h3 style={{ margin: '0 0 8px' }}>{t.empty.title}</h3>
                         <p style={{ margin: 0, fontSize: '14px' }}>
-                            Счета и другие документы появятся после оформления заказов
+                            {t.empty.text}
                         </p>
                         <p style={{ fontSize: '12px', color: '#888', marginTop: '12px' }}>
-                            Для оптовых заказов: счёт формируется в рабочие дни (пн-пт, 9:00-18:00)
+                            {t.empty.note}
                         </p>
                     </div>
                 </div>
