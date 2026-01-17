@@ -7,6 +7,7 @@ import VolumeSlider from './VolumeSlider';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { useFavorites } from '@/context/FavoritesContext';
+import { useSettings } from '@/context/SettingsContext';
 import { Icons } from './Icons';
 import { getPriceForQuantity } from '@/lib/pricing';
 
@@ -15,10 +16,10 @@ interface ProductCardProps {
 }
 
 const FLAVOR_COLORS: Record<string, string> = {
-    'цитрус': '#4caf50',      // green
-    'карамель': '#d2691e',    // chocolate brown
-    'миндаль': '#c19a6b',     // light brown
-    'шоколад': '#5d4037',     // dark brown
+    'цитрус': '#4caf50',
+    'карамель': '#d2691e',
+    'миндаль': '#c19a6b',
+    'шоколад': '#5d4037',
     'орех': '#8d6e63',
     'тёмный шоколад': '#3e2723',
     'специи': '#ff5722',
@@ -31,21 +32,66 @@ const FLAVOR_COLORS: Record<string, string> = {
     'земля': '#4e342e',
     'тёмные ягоды': '#880e4f',
     'молочный шоколад': '#795548',
-};
-
-// Badge translations from system values to Russian display
-const BADGE_LABELS: Record<string, string> = {
-    'popular': 'ПОПУЛЯРНЫЙ',
-    'hit': 'ХИТ',
-    'week_pick': 'СОРТ НЕДЕЛИ',
-    'new': 'НОВИНКА',
+    // English
+    'citrus': '#4caf50',
+    'caramel': '#d2691e',
+    'almond': '#c19a6b',
+    'chocolate': '#5d4037',
+    'nut': '#8d6e63',
+    'dark chocolate': '#3e2723',
+    'spices': '#ff5722',
+    'tobacco': '#5d4037',
+    'cocoa': '#795548',
+    'roasted nut': '#6d4c41',
+    'smoke': '#616161',
+    'bitter chocolate': '#3e2723',
+    'wood': '#795548',
+    'earth': '#4e342e',
+    'dark berries': '#880e4f',
+    'milk chocolate': '#795548',
 };
 
 export default function ProductCard({ product }: ProductCardProps) {
+    const { language } = useSettings();
     const [selectedQuantity, setSelectedQuantity] = useState(1);
     const [added, setAdded] = useState(false);
     const { addToCart } = useCart();
     const { isFavorite, toggleFavorite } = useFavorites();
+
+    const content = {
+        ru: {
+            flavor: 'Вкус:',
+            density: 'Плотность',
+            acidity: 'Кислотность',
+            addToCart: 'В корзину',
+            added: '✓ Добавлено!',
+            addFav: 'Добавить в избранное',
+            removeFav: 'Удалить из избранного',
+            badges: {
+                'popular': 'ПОПУЛЯРНЫЙ',
+                'hit': 'ХИТ',
+                'week_pick': 'СОРТ НЕДЕЛИ',
+                'new': 'НОВИНКА',
+            },
+        },
+        en: {
+            flavor: 'Flavor:',
+            density: 'Body',
+            acidity: 'Acidity',
+            addToCart: 'Add to Cart',
+            added: '✓ Added!',
+            addFav: 'Add to favorites',
+            removeFav: 'Remove from favorites',
+            badges: {
+                'popular': 'POPULAR',
+                'hit': 'HIT',
+                'week_pick': 'PICK OF WEEK',
+                'new': 'NEW',
+            },
+        },
+    };
+
+    const t = content[language];
 
     const getSku = useMemo(() => {
         const skuMap: Record<string, string> = {
@@ -80,7 +126,6 @@ export default function ProductCard({ product }: ProductCardProps) {
         setTimeout(() => setAdded(false), 1500);
     };
 
-    // Generate density/acidity bars
     const renderBar = (value: number) => {
         return (
             <div className={styles.barContainer}>
@@ -94,21 +139,23 @@ export default function ProductCard({ product }: ProductCardProps) {
         );
     };
 
+    const badgeLabel = product.badge ? (t.badges[product.badge as keyof typeof t.badges] || product.badge) : null;
+
     return (
         <div className={styles.card}>
             {/* Favorite Button */}
             <button
                 className={`${styles.favoriteBtn} ${isFavorite(product.slug) ? styles.favorited : ''}`}
                 onClick={() => toggleFavorite(product.slug)}
-                aria-label={isFavorite(product.slug) ? 'Удалить из избранного' : 'Добавить в избранное'}
+                aria-label={isFavorite(product.slug) ? t.removeFav : t.addFav}
             >
                 <Icons.Heart size={20} />
             </button>
 
             {/* Badge */}
-            {product.badge && (
+            {badgeLabel && (
                 <div className={`${styles.badge} ${product.badge === 'week_pick' || product.badge === 'СОРТ НЕДЕЛИ' ? styles.badgeWeek : ''}`}>
-                    {BADGE_LABELS[product.badge] || product.badge}
+                    {badgeLabel}
                 </div>
             )}
 
@@ -139,9 +186,8 @@ export default function ProductCard({ product }: ProductCardProps) {
                 {/* Flavor Notes */}
                 {product.flavorNotes && product.flavorNotes.length > 0 && (
                     <div className={styles.flavorNotes}>
-                        <span className={styles.flavorLabel}>Вкус: </span>
+                        <span className={styles.flavorLabel}>{t.flavor} </span>
                         {product.flavorNotes.map((note, i) => {
-                            // Use product colors if available, otherwise fall back to FLAVOR_COLORS
                             const color = product.flavorColors?.[i] || FLAVOR_COLORS[note.toLowerCase()] || 'inherit';
                             return (
                                 <span
@@ -162,11 +208,11 @@ export default function ProductCard({ product }: ProductCardProps) {
                 {/* Characteristics */}
                 <div className={styles.characteristics}>
                     <div className={styles.charItem}>
-                        <span className={styles.charLabel}>Плотность</span>
+                        <span className={styles.charLabel}>{t.density}</span>
                         {renderBar(product.density || 3)}
                     </div>
                     <div className={styles.charItem}>
-                        <span className={styles.charLabel}>Кислотность</span>
+                        <span className={styles.charLabel}>{t.acidity}</span>
                         {renderBar(product.acidity || 3)}
                     </div>
                 </div>
@@ -183,7 +229,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                         className={`${styles.addToCartBtn} ${added ? styles.added : ''}`}
                         onClick={handleAddToCart}
                     >
-                        {added ? '✓ Добавлено!' : `В корзину — ${priceInfo.total.toLocaleString('ru-RU')} ₸`}
+                        {added ? t.added : `${t.addToCart} — ${priceInfo.total.toLocaleString('ru-RU')} ₸`}
                     </button>
                 </div>
             </div>
